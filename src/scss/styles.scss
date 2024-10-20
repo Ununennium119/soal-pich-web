@@ -1,5 +1,21 @@
+@import "../../node_modules/bootstrap/scss/bootstrap";
 @import 'variables';
+@import "components/sidebar";
+@import "components/dashboard";
 
 body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
   background-color: $background-color;
+  font-family: $font-family;
+}
+
+a {
+  color: $link-color;
+}
+
+.wrapper {
+  display: flex;
+  height: 100vh;
 }
