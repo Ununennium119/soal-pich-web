@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../dist/css/styles.css">
+    <title>Design Questions</title>
+</head>
+<body>
+<div class="wrapper">
+    <div class="sidebar-wrapper">
+        <div class="sidebar-heading">So'al Pich</div>
+        <ul class="sidebar-items-wrapper">
+            <li class="sidebar-item"><a href="dashboard-designer.html">Dashboard</a></li>
+            <li class="sidebar-item selected"><a href="design-questions.html">Questions</a></li>
+            <li class="sidebar-item"><a href="#">Categories</a></li>
+        </ul>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="content-header">
+            <h1>Questions</h1>
+            <button class="btn btn-primary">New</button>
+        </div>
+        <div class="content">
+            <div class="filter">
+                <input type="text" id="filterInput" class="form-control" placeholder="Filter by title..."/>
+                <select class="form-control" id="categoryFilter">
+                    <option value="">Filter by category:</option>
+                    <option value="Admin">Sports</option>
+                    <option value="User">Mathematics</option>
+                    <option value="Editor">General</option>
+                </select>
+            </div>
+
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Options</th>
+                </tr>
+                </thead>
+                <tbody id="dataTable">
+                <tr>
+                    <td>1</td>
+                    <td>Question #1</td>
+                    <td>Sports</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton1"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Options
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <a class="dropdown-item" href="#">View</a>
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item" href="#">Delete</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Question #2</td>
+                    <td>Mathematics</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton2"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Options
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                <a class="dropdown-item" href="#">View</a>
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item" href="#">Delete</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Questions #3</td>
+                    <td>-</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton3"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Options
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
+                                <a class="dropdown-item" href="#">View</a>
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item" href="#">Delete</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="../../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+<script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
