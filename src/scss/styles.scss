@@ -1,6 +1,5 @@
-@import "variables";
-@import "../../node_modules/bootstrap/scss/bootstrap";
+@import 'variables';
 
 body {
-  background-color: #f8f9fa;
+  background-color: $background-color;
 }
