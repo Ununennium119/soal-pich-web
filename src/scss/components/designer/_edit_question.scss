@@ -1,0 +1,13 @@
+@import "../../variables";
+
+#edit-question-content-header {
+  a {
+    text-decoration: none;
+    color: $link-color;
+  };
+}
+
+#edit-question-content {
+  width: 80%;
+  align-items: center;
+}
