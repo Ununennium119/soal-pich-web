@@ -1,13 +1,18 @@
-@import "../variables";
+@import "../../variables";
 
-#questions-content-header {
+#categories-content-header {
   justify-content: space-between;
+
+  button {
+    height: 40px;
+    width: 100px;
+  }
 }
 
-#questions-content {
+#categories-content {
   .filter {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: start;
     margin-bottom: 30px;
     width: 100%;
 
@@ -26,17 +31,15 @@
         width: 10%;
       }
       th:nth-child(2) {
-        width: 45%;
+        width: 85%;
       }
       th:nth-child(3) {
-        width: 45%;
+        width: 5%;
       }
     }
+  }
 
-    tbody {
-      tr {
-        cursor: pointer;
-      }
-    }
+  .dropdown {
+    width: 100px;
   }
 }

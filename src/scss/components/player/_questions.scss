@@ -1,18 +1,13 @@
-@import "../variables";
+@import "../../variables";
 
-#categories-content-header {
+#questions-content-header {
   justify-content: space-between;
-
-  button {
-    height: 40px;
-    width: 100px;
-  }
 }
 
-#categories-content {
+#questions-content {
   .filter {
     display: flex;
-    justify-content: start;
+    justify-content: space-evenly;
     margin-bottom: 30px;
     width: 100%;
 
@@ -31,15 +26,17 @@
         width: 10%;
       }
       th:nth-child(2) {
-        width: 85%;
+        width: 45%;
       }
       th:nth-child(3) {
-        width: 5%;
+        width: 45%;
       }
     }
-  }
 
-  .dropdown {
-    width: 100px;
+    tbody {
+      tr {
+        cursor: pointer;
+      }
+    }
   }
 }

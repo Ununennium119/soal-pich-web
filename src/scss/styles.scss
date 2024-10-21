@@ -3,10 +3,10 @@
 @import "components/sidebar";
 @import "components/dashboard";
 @import "components/content";
-@import "components/design-questions";
-@import "components/manage-categories";
-@import "components/questions";
-@import "components/scoreboard";
+@import "components/designer/design-questions";
+@import "components/designer/manage-categories";
+@import "components/player/questions";
+@import "components/player/scoreboard";
 
 body {
   margin: 0;
