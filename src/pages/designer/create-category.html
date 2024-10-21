@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../dist/css/styles.css">
+    <title>Create Category</title>
+</head>
+<body>
+<div class="wrapper">
+    <div class="sidebar-wrapper">
+        <div class="sidebar-heading">So'al Pich</div>
+        <ul class="sidebar-items-wrapper">
+            <li class="sidebar-item"><a href="dashboard-designer.html">Dashboard</a></li>
+            <li class="sidebar-item selected"><a href="design-questions.html">Questions</a></li>
+            <li class="sidebar-item"><a href="manage-categories.html">Categories</a></li>
+        </ul>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="content-header" id="create-category-content-header">
+            <h1>
+                <a href="manage-categories.html"><span>Categories</span></a>
+                    <span>&#x276D;</span>
+                <span>Create</span>
+            </h1>
+        </div>
+        <div class="content" id="create-category-content">
+            <form class="form-control">
+                <div class="flex-row">
+                    <div class="mb-4">
+                        <label for="title-input" class="form-label">Title</label>
+                        <input type="text" id="title-input" class="form-control" placeholder="Enter title..."/>
+                    </div>
+
+                    <div class="mb-4">
+                        <button type="submit" class="btn btn-primary w-100">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="../../../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+<script src="../../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
