@@ -1,6 +1,6 @@
 @import "../variables";
 
-#design-questions-content-header {
+#categories-content-header {
   justify-content: space-between;
 
   button {
@@ -9,10 +9,10 @@
   }
 }
 
-#design-questions-content {
+#categories-content {
   .filter {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: start;
     margin-bottom: 30px;
 
     input {
@@ -30,12 +30,9 @@
         width: 10%;
       }
       th:nth-child(2) {
-        width: 45%;
+        width: 85%;
       }
       th:nth-child(3) {
-        width: 40%;
-      }
-      th:nth-child(4) {
         width: 5%;
       }
     }
