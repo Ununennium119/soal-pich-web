@@ -2,9 +2,10 @@
 @import 'variables';
 @import "components/sidebar";
 @import "components/dashboard";
+@import "components/content";
 @import "components/design-questions";
 @import "components/manage-categories";
-@import "components/content";
+@import "components/scoreboard";
 
 body {
   margin: 0;
