@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../dist/css/styles.css">
+    <title>Questions</title>
+</head>
+<body>
+<div class="wrapper">
+    <div class="sidebar-wrapper">
+        <div class="sidebar-heading">So'al Pich</div>
+        <ul class="sidebar-items-wrapper">
+            <li class="sidebar-item"><a href="dashboard-player.html">Dashboard</a></li>
+            <li class="sidebar-item selected"><a href="questions.html">Questions</a></li>
+            <li class="sidebar-item"><a href="scoreboard.html">Scoreboard</a></li>
+        </ul>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="content-header" id="questions-content-header">
+            <h1>Questions</h1>
+            <div>
+                <button class="btn btn-primary">Answer Random</button>
+                <button class="btn btn-primary">Answer By Category</button>
+            </div>
+        </div>
+        <div class="content" id="questions-content">
+            <div class="filter">
+                <input type="text" id="filterInput" class="form-control" placeholder="Filter by title..."/>
+                <select class="form-control" id="categoryFilter">
+                    <option value="">Filter by category:</option>
+                    <option value="Admin">Sports</option>
+                    <option value="User">Mathematics</option>
+                    <option value="Editor">General</option>
+                </select>
+            </div>
+
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr onclick="window.location='#';">
+                    <td>1</td>
+                    <td>Question #1</td>
+                    <td>Sports</td>
+                </tr>
+                <tr onclick="window.location='#';">
+                    <td>2</td>
+                    <td>Question #2</td>
+                    <td>Mathematics</td>
+                </tr>
+                <tr onclick="window.location='#';">
+                    <td>3</td>
+                    <td>Questions #3</td>
+                    <td>-</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="../../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+<script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
