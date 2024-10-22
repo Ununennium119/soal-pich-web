@@ -40,3 +40,19 @@
     }
   }
 }
+
+#category-modal-body {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+#category-modal-dialog {
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.scrollable-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
