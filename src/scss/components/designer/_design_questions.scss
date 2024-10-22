@@ -44,7 +44,15 @@
 
   tbody {
     tr {
-      cursor: pointer;
+      td:nth-child(1) {
+        cursor: pointer;
+      }
+      td:nth-child(2) {
+        cursor: pointer;
+      }
+      td:nth-child(3) {
+        cursor: pointer;
+      }
     }
   }
 
