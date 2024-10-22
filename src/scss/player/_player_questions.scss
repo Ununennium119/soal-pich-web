@@ -1,0 +1,61 @@
+.content-header {
+  justify-content: space-between;
+}
+
+.content {
+  .filter {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    width: 100%;
+
+    input {
+      width: 30%;
+      margin-right: 20px;
+    }
+
+    select {
+      width: 30%;
+    }
+
+    button {
+      margin-right: 10px;
+    }
+  }
+
+  table {
+    tr {
+      th:nth-child(1) {
+        width: 10%;
+      }
+      th:nth-child(2) {
+        width: 45%;
+      }
+      th:nth-child(3) {
+        width: 45%;
+      }
+    }
+
+    tbody {
+      tr {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+#category-modal-body {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+#category-modal-dialog {
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.scrollable-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
