@@ -11,22 +11,8 @@ const CategoryRow = ({category}) => {
 
     return (
         <tr>
-            <td
-                className='designer-category-id'
-                onClick={() => {
-                    navigate(`/designer/category/${category.id}/view`)
-                }}
-            >
-                {category.id}
-            </td>
-            <td
-                className='designer-category-title'
-                onClick={() => {
-                    navigate(`/designer/category/${category.id}/view`)
-                }}
-            >
-                {category.title}
-            </td>
+            <td className='designer-category-id'>{category.id}</td>
+            <td className='designer-category-title'>{category.title}</td>
             <td className='designer-category-options d-flex justify-content-around'>
                 <button
                     className='btn btn-outline-secondary'

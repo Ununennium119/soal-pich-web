@@ -1,0 +1,14 @@
+@import "../variables";
+
+#designer-edit-category-content-header {
+  a {
+    text-decoration: none;
+    color: $link-color;
+  };
+}
+
+#designer-edit-category-content {
+  width: 80%;
+  align-items: center;
+  margin-top: 30px;
+}
