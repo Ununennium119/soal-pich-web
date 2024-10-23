@@ -1,34 +1,74 @@
 import Content from "../../components/Content";
 import '../../scss/designer/_designer_questions.scss'
 import Pagination from "../../components/Pagination";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import PropTypes from "prop-types";
 import DesignerSidebar from "../../components/DesignerSidebar";
+import ConfirmationPopover from "../../components/ConfirmationButton";
 
-const CategoriesList = ({count}) => {
+const QuestionRow = ({question}) => {
     const navigate = useNavigate()
+
     return (
-        <div className="list-group scrollable-list" id="categoryList">
-            {[...Array(count)].map((_, index) => (
+        <tr>
+            <td
+                className='designer-question-id'
+                onClick={() => {
+                    navigate(`/designer/question/${question.id}/view`)
+                }}
+            >
+                {question.id}
+            </td>
+            <td
+                className='designer-question-title'
+                onClick={() => {
+                    navigate(`/designer/question/${question.id}/view`)
+                }}
+            >
+                {question.title}
+            </td>
+            <td
+                className='designer-question-category'
+                onClick={() => {
+                    navigate(`/designer/question/${question.id}/view`)
+                }}
+            >
+                {question.category ? question.category : '-'}
+            </td>
+            <td className='designer-question-options d-flex justify-content-around'>
                 <button
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                    className="list-group-item list-group-item-action"
+                    className='btn btn-outline-secondary'
                     onClick={() => {
-                        navigate(`/player/question/${index}/answer`);
+                        navigate(`/designer/question/${question.id}/edit`)
                     }}
                 >
-                    Category {index}
+                    &#9998;
                 </button>
-            ))}
-        </div>
-    );
-};
-CategoriesList.propTypes = {
-    count: PropTypes.number.isRequired,
+                <ConfirmationPopover
+                    triggerButton={
+                        <button className='btn btn-outline-danger'>
+                            &#10006;
+                        </button>
+                    }
+                    onConfirm={() => {
+                        console.log(`Deleting question with id ${question.id}...`)
+                    }}
+                    placement="left"
+                />
+            </td>
+        </tr>
+    )
+}
+QuestionRow.propTypes = {
+    question: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        title: PropTypes.string.isRequired,
+        category: PropTypes.string,
+    }),
 }
 
 const DesignerQuestions = () => {
+    const navigate = useNavigate()
     return (
         <div className="wrapper">
             <DesignerSidebar/>
@@ -40,7 +80,6 @@ const DesignerQuestions = () => {
             >
                 <div className="filter">
                     <div>
-                        <label htmlFor='title-input' className='form-label'>Title</label>
                         <input type="text" className="form-control" id="title-input" placeholder="Filter by title..."/>
                     </div>
 
@@ -65,61 +104,21 @@ const DesignerQuestions = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                    <td>1</td>
-                        <td>Question #1</td>
-                        <td>Sports</td>
-                        <td>
-                            <div className="dropdown">
-                                <button className="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton1"
-                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Options
-                                </button>
-                                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <Link className="dropdown-item" to='/designer/question/1/view'>View</Link>
-                                    <Link className="dropdown-item" to='/designer/question/1/edit'>Edit</Link>
-                                    <Link className="dropdown-item" to='/designer/question/1/delete'>Delete</Link>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Question #2</td>
-                        <td>Mathematics</td>
-                        <td>
-                            <div className="dropdown">
-                                <button className="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton2"
-                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Options
-                                </button>
-                                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                    <Link className="dropdown-item" to='/designer/question/2/view'>View</Link>
-                                    <Link className="dropdown-item" to='/designer/question/2/edit'>Edit</Link>
-                                    <Link className="dropdown-item" to='/designer/question/2/delete'>Delete</Link>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Question #3</td>
-                        <td>-</td>
-                        <td>
-                            <div className="dropdown">
-                                <button className="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton3"
-                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Options
-                                </button>
-
-                                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton3">
-                                    <Link className="dropdown-item" to='/designer/question/3/view'>View</Link>
-                                    <Link className="dropdown-item" to='/designer/question/3/edit'>Edit</Link>
-                                    <Link className="dropdown-item" to='/designer/question/3/delete'>Delete</Link>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
+                    <QuestionRow question={{
+                        id: 1,
+                        title: "Question #1",
+                        category: "Sports"
+                    }}/>
+                    <QuestionRow question={{
+                        id: 2,
+                        title: "Question #2",
+                        category: "Mathematics",
+                    }}/>
+                    <QuestionRow question={{
+                        id: 3,
+                        title: "Question #3",
+                        category: undefined,
+                    }}/>
                     </tbody>
                 </table>
 
