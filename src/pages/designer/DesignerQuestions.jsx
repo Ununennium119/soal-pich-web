@@ -1,7 +1,7 @@
 import Content from "../../components/Content";
 import '../../scss/designer/_designer_questions.scss'
 import Pagination from "../../components/Pagination";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import PropTypes from "prop-types";
 import DesignerSidebar from "../../components/DesignerSidebar";
 import ConfirmationPopover from "../../components/ConfirmationButton";
@@ -77,19 +77,28 @@ const DesignerQuestions = () => {
                 contentHeaderId='designer-questions-content-header'
                 contentId='designer-questions-content'
             >
-                <div className="filter">
-                    <div>
-                        <input type="text" className="form-control" id="title-input" placeholder="Filter by title..."/>
+                <div className='options w-100 d-flex justify-content-between'>
+                    <div className="filter w-75">
+                        <div>
+                            <input type="text" className="form-control" id="title-input"
+                                   placeholder="Filter by title..."/>
+                        </div>
+
+                        <div>
+                            <label htmlFor='category-filter' className='form-label'>Category</label>
+                            <select className="form-control" id="category-filter">
+                                <option value="">All</option>
+                                <option value="Admin">Sports</option>
+                                <option value="User">Mathematics</option>
+                                <option value="Editor">General</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div>
-                        <label htmlFor='category-filter' className='form-label'>Category</label>
-                        <select className="form-control" id="category-filter">
-                            <option value="">All</option>
-                            <option value="Admin">Sports</option>
-                            <option value="User">Mathematics</option>
-                            <option value="Editor">General</option>
-                        </select>
+                    <div className='d-flex w-25 justify-content-end'>
+                        <Link to={'/designer/questions/create'} className="btn btn-primary w-50">
+                            New
+                        </Link>
                     </div>
                 </div>
 
