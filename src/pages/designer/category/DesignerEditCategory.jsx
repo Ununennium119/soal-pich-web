@@ -1,6 +1,6 @@
-import DesignerSidebar from "../../components/DesignerSidebar";
-import Content from "../../components/Content";
-import "../../scss/designer/_designer_edit_category.scss"
+import DesignerSidebar from "../../../components/DesignerSidebar";
+import Content from "../../../components/Content";
+import "../../../scss/designer/category/_designer_edit_category.scss"
 
 const DesignerEditCategory = () => {
     return (

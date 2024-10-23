@@ -1,6 +1,6 @@
-import DesignerSidebar from "../../components/DesignerSidebar";
-import Content from "../../components/Content";
-import '../../scss/designer/_designer_create_question.scss'
+import DesignerSidebar from "../../../components/DesignerSidebar";
+import Content from "../../../components/Content";
+import '../../../scss/designer/question/_designer_create_question.scss'
 
 const DesignerCreateQuestion = () => {
     return (

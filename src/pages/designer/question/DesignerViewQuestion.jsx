@@ -1,7 +1,7 @@
-import Content from "../../components/Content";
-import '../../scss/designer/_designer_view_question.scss'
+import Content from "../../../components/Content";
+import '../../../scss/designer/question/_designer_view_question.scss'
 import {Link} from "react-router-dom";
-import DesignerSidebar from "../../components/DesignerSidebar";
+import DesignerSidebar from "../../../components/DesignerSidebar";
 
 const DesignerViewQuestion = () => {
     return (

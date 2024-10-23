@@ -1,9 +1,9 @@
-import DesignerSidebar from "../../components/DesignerSidebar";
-import Content from "../../components/Content";
-import Pagination from "../../components/Pagination";
-import "../../scss/designer/_designer_categories.scss"
+import DesignerSidebar from "../../../components/DesignerSidebar";
+import Content from "../../../components/Content";
+import Pagination from "../../../components/Pagination";
+import "../../../scss/designer/category/_designer_categories.scss"
 import {Link, useNavigate} from "react-router-dom";
-import ConfirmationPopover from "../../components/ConfirmationButton";
+import ConfirmationPopover from "../../../components/ConfirmationButton";
 import PropTypes from "prop-types";
 
 const CategoryRow = ({category}) => {
