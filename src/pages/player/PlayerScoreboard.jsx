@@ -10,7 +10,7 @@ const PlayerScoreboard = () => {
 
             <Content
                 header='Scoreboard'
-                headerId='player-scoreboard-content-header'
+                contentHeaderId='player-scoreboard-content-header'
                 contentId='player-scoreboard-content'
             >
                 <table className="table table-bordered">

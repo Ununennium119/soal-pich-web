@@ -12,7 +12,7 @@ const PlayerViewQuestion = () => {
                 header='Question'
                 subHeader='View'
                 headerRoute='/player/questions'
-                headerId='player-view-question-content-header'
+                contentHeaderId='player-view-question-content-header'
                 contentId='player-view-question-content'
             >
                 <p>Which country won the FIFA World Cup in 2022?</p>

@@ -9,6 +9,7 @@ import PlayerViewQuestion from "./pages/player/PlayerViewQuestion";
 import DesignerDashboard from "./pages/designer/DesignerDashboard";
 import DesignerQuestions from "./pages/designer/DesignerQuestions";
 import DesignerViewQuestion from "./pages/designer/DesignerViewQuestion";
+import DesignerEditQuestion from "./pages/designer/DesignerEditQuestion";
 
 function App() {
     return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/designer/dashboard" element={<DesignerDashboard/>}/>
             <Route path="/designer/questions" element={<DesignerQuestions/>}/>
             <Route path="/designer/question/:id/view" element={<DesignerViewQuestion/>}/>
+            <Route path="/designer/question/:id/edit" element={<DesignerEditQuestion/>}/>
         </Routes>
     );
 }

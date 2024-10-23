@@ -36,7 +36,7 @@ const PlayerQuestions = () => {
 
             <Content
                 header='Questions'
-                headerId='player-questions-content-header'
+                contentHeaderId='player-questions-content-header'
                 contentId='player-questions-content'
             >
                 <div id ='options'>

@@ -12,7 +12,7 @@ const DesignerViewQuestion = () => {
                 header='Question'
                 subHeader='View'
                 headerRoute='/designer/questions'
-                headerId='designer-view-question-content-header'
+                contentHeaderId='designer-view-question-content-header'
                 contentId='designer-view-question-content'
             >
                 <p>Which country won the FIFA World Cup in 2022?</p>

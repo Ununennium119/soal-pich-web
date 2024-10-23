@@ -11,7 +11,7 @@ const PlayerAnswerQuestion = () => {
                 header='Questions'
                 subHeader='Answer'
                 headerRoute='/player/questions'
-                headerId='player-answer-question-content-header'
+                contentHeaderId='player-answer-question-content-header'
                 contentId='player-answer-question-content'
             >
                 <p><span className="fw-bold">Category:</span> Sports</p>

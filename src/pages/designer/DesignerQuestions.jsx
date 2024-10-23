@@ -68,14 +68,13 @@ QuestionRow.propTypes = {
 }
 
 const DesignerQuestions = () => {
-    const navigate = useNavigate()
     return (
         <div className="wrapper">
             <DesignerSidebar/>
 
             <Content
                 header='Questions'
-                headerId='designer-questions-content-header'
+                contentHeaderId='designer-questions-content-header'
                 contentId='designer-questions-content'
             >
                 <div className="filter">
