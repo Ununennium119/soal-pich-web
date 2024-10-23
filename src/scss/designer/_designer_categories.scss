@@ -1,0 +1,50 @@
+@import "../variables";
+
+#designer-categories-content-header {
+  justify-content: space-between;
+
+  button {
+    height: 40px;
+    width: 100px;
+  }
+}
+
+#designer-categories-content {
+  .options {
+    margin-bottom: 30px;
+  }
+
+  .filter {
+    display: flex;
+    justify-content: start;
+    width: 100%;
+
+    input {
+      width: 30%;
+    }
+
+    select {
+      width: 30%;
+    }
+  }
+
+  table {
+    td.designer-category-id {
+      width: 10%;
+      cursor: pointer;
+    }
+
+    td.designer-category-title {
+      width: 80%;
+      cursor: pointer;
+    }
+
+    td.designer-category-options {
+      width: 100%;
+    }
+  }
+
+  .dropdown {
+    width: 100px;
+  }
+}
