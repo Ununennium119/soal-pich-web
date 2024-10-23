@@ -12,6 +12,7 @@ import DesignerViewQuestion from "./pages/designer/DesignerViewQuestion";
 import DesignerEditQuestion from "./pages/designer/DesignerEditQuestion";
 import DesignerCreateQuestion from "./pages/designer/DesignerCreateQuestion";
 import DesignerCategories from "./pages/designer/DesignerCategories";
+import DesignerCreateCategory from "./pages/designer/DesignerCreateCategory";
 
 function App() {
     return (
@@ -32,6 +33,7 @@ function App() {
             <Route path="/designer/question/:id/view" element={<DesignerViewQuestion/>}/>
             <Route path="/designer/question/:id/edit" element={<DesignerEditQuestion/>}/>
             <Route path="/designer/categories" element={<DesignerCategories/>}/>
+            <Route path="/designer/categories/create" element={<DesignerCreateCategory/>}/>
         </Routes>
     );
 }
