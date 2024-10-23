@@ -2,15 +2,45 @@ import Sidebar from "../../components/PlayerSidebar";
 import Content from "../../components/Content";
 import '../../scss/player/_player_questions.scss'
 import Pagination from "../../components/Pagination";
+import {Link, useNavigate} from "react-router-dom";
+import PropTypes from "prop-types";
+
+const CategoriesList = ({count}) => {
+    const navigate = useNavigate()
+    return (
+        <div className="list-group scrollable-list" id="categoryList">
+            {[...Array(count)].map((_, index) => (
+                <button
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                    className="list-group-item list-group-item-action"
+                    onClick={() => {
+                        navigate(`/player/question/${index}/answer`);
+                    }}
+                >
+                    Category {index}
+                </button>
+            ))}
+        </div>
+    );
+};
+CategoriesList.propTypes = {
+    count: PropTypes.number.isRequired,
+}
 
 const PlayerQuestions = () => {
+    const navigate = useNavigate()
     return (
         <div className="wrapper">
             <Sidebar/>
 
-            <Content header='Questions'>
-                <div className="filter">
-                    <div className="d-flex w-75">
+            <Content
+                header='Questions'
+                headerId='player-questions-content-header'
+                contentId='player-questions-content'
+            >
+                <div id ='options'>
+                    <div className="d-flex" id='filters-wrapper'>
                         <input type="text" id="filterInput" className="form-control"
                                placeholder="Filter by title..."/>
                         <select className="form-control" id="categoryFilter">
@@ -21,10 +51,10 @@ const PlayerQuestions = () => {
                         </select>
                     </div>
 
-                    <div className="d-flex w-25">
-                        <button className="btn btn-primary" onClick="window.location='answer-question.html'">
+                    <div className="d-flex" id='buttons-wrapper'>
+                        <Link to={'/player/question/1/answer'} className="btn btn-primary">
                             Answer Random
-                        </button>
+                        </Link>
                         <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#category-modal">
                             Answer By Category
                         </button>
@@ -40,17 +70,23 @@ const PlayerQuestions = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    <tr onClick="window.location='view-question-player.html';">
+                    <tr onClick={() => {
+                        navigate(`/player/question/1/view`);
+                    }}>
                         <td>1</td>
                         <td>Question #1</td>
                         <td>Sports</td>
                     </tr>
-                    <tr onClick="window.location='view-question-player.html';">
+                    <tr onClick={() => {
+                        navigate(`/player/question/2/view`);
+                    }}>
                         <td>2</td>
                         <td>Question #2</td>
                         <td>Mathematics</td>
                     </tr>
-                    <tr onClick="window.location='view-question-player.html';">
+                    <tr onClick={() => {
+                        navigate(`/player/question/3/view`);
+                    }}>
                         <td>3</td>
                         <td>Question #3</td>
                         <td>-</td>
@@ -74,24 +110,7 @@ const PlayerQuestions = () => {
                             <input type="text" id="categorySearch" className="form-control mb-3"
                                    placeholder="Search categories..."/>
 
-                            <div className="list-group scrollable-list" id="categoryList">
-                                <a href="answer-question.html" className="list-group-item list-group-item-action">Category
-                                    1</a>
-                                <a href="answer-question.html" className="list-group-item list-group-item-action">Category
-                                    2</a>
-                                <a href="answer-question.html" className="list-group-item list-group-item-action">Category
-                                    3</a>
-                                <a href="answer-question.html" className="list-group-item list-group-item-action">Category
-                                    4</a>
-                                <a href="answer-question.html" className="list-group-item list-group-item-action">Category
-                                    5</a>
-                                <a href="answer-question.html" className="list-group-item list-group-item-action">Category
-                                    6</a>
-                                <a href="answer-question.html" className="list-group-item list-group-item-action">Category
-                                    7</a>
-                                <a href="answer-question.html" className="list-group-item list-group-item-action">Category
-                                    8</a>
-                            </div>
+                            <CategoriesList count={10}/>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>

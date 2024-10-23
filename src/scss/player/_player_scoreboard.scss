@@ -1,0 +1,41 @@
+@use "sass:color";
+@import "../variables";
+
+#player-scoreboard-content {
+  display: flex;
+  justify-content: center;
+
+  table {
+    width: 60%;
+
+    tr {
+      th:nth-child(1) {
+        text-align: center;
+        width: 20%;
+      }
+      th:nth-child(2) {
+        text-align: center;
+        width: 55%;
+      }
+      th:nth-child(3) {
+        text-align: center;
+        width: 30%;
+      }
+
+      td:nth-child(1) {
+        text-align: center;
+      }
+      td:nth-child(3) {
+        text-align: center;
+      }
+    }
+
+    .current {
+      border: 2px solid $secondary-color;
+
+      td {
+        background: color.adjust($background-color, $lightness: -10%);
+      }
+    }
+  }
+}
