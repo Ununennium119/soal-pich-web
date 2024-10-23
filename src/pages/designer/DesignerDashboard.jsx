@@ -1,10 +1,10 @@
-import PlayerSidebar from "../../components/PlayerSidebar.jsx";
 import Content from "../../components/Content";
+import DesignerSidebar from "../../components/DesignerSidebar";
 
-const PlayerDashboard = () => {
+const DesignerDashboard = () => {
     return (
         <div className="wrapper">
-            <PlayerSidebar/>
+            <DesignerSidebar/>
 
             <Content header='Dashboard'>
                 <h1 id="dashboard-welcome">Welcome Username!</h1>
@@ -13,4 +13,4 @@ const PlayerDashboard = () => {
     )
 }
 
-export default PlayerDashboard;
+export default DesignerDashboard;

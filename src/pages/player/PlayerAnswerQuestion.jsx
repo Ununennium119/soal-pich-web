@@ -1,11 +1,11 @@
-import Sidebar from "../../components/PlayerSidebar";
+import PlayerSidebar from "../../components/PlayerSidebar";
 import Content from "../../components/Content";
 import '../../scss/player/_player_answer_question.scss'
 
 const PlayerAnswerQuestion = () => {
     return (
         <div className="wrapper">
-            <Sidebar/>
+            <PlayerSidebar/>
 
             <Content
                 header='Questions'

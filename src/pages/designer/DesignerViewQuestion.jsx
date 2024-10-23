@@ -1,19 +1,19 @@
-import PlayerSidebar from "../../components/PlayerSidebar";
 import Content from "../../components/Content";
-import '../../scss/player/_player_view_question.scss'
+import '../../scss/designer/_designer_view_question.scss'
 import {Link} from "react-router-dom";
+import DesignerSidebar from "../../components/DesignerSidebar";
 
-const PlayerViewQuestion = () => {
+const DesignerViewQuestion = () => {
     return (
         <div className='wrapper'>
-            <PlayerSidebar/>
+            <DesignerSidebar/>
 
             <Content
                 header='Question'
                 subHeader='View'
-                headerRoute='/player/questions'
-                headerId='player-view-question-content-header'
-                contentId='player-view-question-content'
+                headerRoute='/designer/questions'
+                headerId='designer-view-question-content-header'
+                contentId='designer-view-question-content'
             >
                 <p>Which country won the FIFA World Cup in 2022?</p>
                 <ol>
@@ -26,15 +26,15 @@ const PlayerViewQuestion = () => {
                 <p><span className="fw-bold">Difficulty:</span> Easy</p>
                 <span className="fw-bold">Related Questions:</span>
                 <ul>
-                    <li><Link to='/player/question/2/view'>Question #2</Link></li>
-                    <li><Link to='/player/question/3/view'>Question #3</Link></li>
-                    <li><Link to='/player/question/5/view'>Question #5</Link></li>
-                    <li><Link to='/player/question/6/view'>Question #6</Link></li>
-                    <li><Link to='/player/question/8/view'>Question #8</Link></li>
+                    <li><Link to='/designer/question/2/view'>Question #2</Link></li>
+                    <li><Link to='/designer/question/3/view'>Question #3</Link></li>
+                    <li><Link to='/designer/question/5/view'>Question #5</Link></li>
+                    <li><Link to='/designer/question/6/view'>Question #6</Link></li>
+                    <li><Link to='/designer/question/8/view'>Question #8</Link></li>
                 </ul>
             </Content>
         </div>
     )
 }
 
-export default PlayerViewQuestion;
+export default DesignerViewQuestion;

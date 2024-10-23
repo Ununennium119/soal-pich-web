@@ -1,4 +1,4 @@
-import Sidebar from "../../components/PlayerSidebar";
+import PlayerSidebar from "../../components/PlayerSidebar";
 import Content from "../../components/Content";
 import '../../scss/player/_player_questions.scss'
 import Pagination from "../../components/Pagination";
@@ -32,7 +32,7 @@ const PlayerQuestions = () => {
     const navigate = useNavigate()
     return (
         <div className="wrapper">
-            <Sidebar/>
+            <PlayerSidebar/>
 
             <Content
                 header='Questions'

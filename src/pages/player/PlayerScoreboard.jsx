@@ -1,4 +1,4 @@
-import Sidebar from "../../components/PlayerSidebar.jsx";
+import PlayerSidebar from "../../components/PlayerSidebar.jsx";
 import Content from "../../components/Content";
 import '../../scss/player/_player_scoreboard.scss'
 import Pagination from "../../components/Pagination";
@@ -6,7 +6,7 @@ import Pagination from "../../components/Pagination";
 const PlayerScoreboard = () => {
     return (
         <div className="wrapper">
-            <Sidebar/>
+            <PlayerSidebar/>
 
             <Content
                 header='Scoreboard'
