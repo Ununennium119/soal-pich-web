@@ -14,28 +14,29 @@ import DesignerCreateQuestion from "./pages/designer/question/DesignerCreateQues
 import DesignerCategories from "./pages/designer/category/DesignerCategories";
 import DesignerCreateCategory from "./pages/designer/category/DesignerCreateCategory";
 import DesignerEditCategory from "./pages/designer/category/DesignerEditCategory";
+import {routes} from "./routes";
 
 function App() {
     return (
         <Routes>
             <Route path="/" element={<Login/>}/>
-            <Route path="/login" element={<Login/>}/>
-            <Route path="/register" element={<Register/>}/>
+            <Route path={routes.login} element={<Login/>}/>
+            <Route path={routes.register} element={<Register/>}/>
 
-            <Route path="/player/dashboard" element={<PlayerDashboard/>}/>
-            <Route path="/player/questions" element={<PlayerQuestions/>}/>
-            <Route path="/player/scoreboard" element={<PlayerScoreboard/>}/>
-            <Route path="/player/question/:id/answer" element={<PlayerAnswerQuestion/>}/>
-            <Route path="/player/question/:id/view" element={<PlayerViewQuestion/>}/>
+            <Route path={routes.playerDashboard} element={<PlayerDashboard/>}/>
+            <Route path={routes.playerQuestions} element={<PlayerQuestions/>}/>
+            <Route path={routes.playerQuestionsView(':id')} element={<PlayerViewQuestion/>}/>
+            <Route path={routes.playerQuestionsAnswer(':id')} element={<PlayerAnswerQuestion/>}/>
+            <Route path={routes.playerScoreboard} element={<PlayerScoreboard/>}/>
 
-            <Route path="/designer/dashboard" element={<DesignerDashboard/>}/>
-            <Route path="/designer/questions" element={<DesignerQuestions/>}/>
-            <Route path="/designer/questions/create" element={<DesignerCreateQuestion/>}/>
-            <Route path="/designer/question/:id/view" element={<DesignerViewQuestion/>}/>
-            <Route path="/designer/question/:id/edit" element={<DesignerEditQuestion/>}/>
-            <Route path="/designer/categories" element={<DesignerCategories/>}/>
-            <Route path="/designer/categories/create" element={<DesignerCreateCategory/>}/>
-            <Route path="/designer/category/:id/edit" element={<DesignerEditCategory/>}/>
+            <Route path={routes.designerDashboard} element={<DesignerDashboard/>}/>
+            <Route path={routes.designerQuestions} element={<DesignerQuestions/>}/>
+            <Route path={routes.designerQuestionsCreate} element={<DesignerCreateQuestion/>}/>
+            <Route path={routes.designerQuestionsView(':id')} element={<DesignerViewQuestion/>}/>
+            <Route path={routes.designerQuestionsEdit(':id')} element={<DesignerEditQuestion/>}/>
+            <Route path={routes.designerCategories} element={<DesignerCategories/>}/>
+            <Route path={routes.designerCategoriesCreate} element={<DesignerCreateCategory/>}/>
+            <Route path={routes.designerCategoriesEdit(':id')} element={<DesignerEditCategory/>}/>
         </Routes>
     );
 }

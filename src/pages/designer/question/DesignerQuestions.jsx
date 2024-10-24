@@ -6,6 +6,7 @@ import DesignerSidebar from "../../../components/DesignerSidebar";
 import Content from "../../../components/Content";
 import ConfirmationPopover from "../../../components/ConfirmationButton";
 import PaginationComponent from "../../../components/PaginationComponent";
+import {routes} from "../../../routes";
 
 const DesignerQuestions = () => {
     const categories = [
@@ -65,7 +66,7 @@ const DesignerQuestions = () => {
                     </div>
 
                     <div className='d-flex w-25 justify-content-end'>
-                        <Link to={'/designer/questions/create'} className="btn btn-primary w-auto ps-5 pe-5">
+                        <Link to={routes.designerQuestionsCreate} className="btn btn-primary w-auto ps-5 pe-5">
                             New
                         </Link>
                     </div>
@@ -114,7 +115,7 @@ const QuestionRow = ({question}) => {
             <td
                 role='button'
                 onClick={() => {
-                    navigate(`/designer/question/${question.id}/view`)
+                    navigate(routes.designerQuestionsView(question.id))
                 }}
                 style={{width: '10%'}}
             >
@@ -123,7 +124,7 @@ const QuestionRow = ({question}) => {
             <td
                 role='button'
                 onClick={() => {
-                    navigate(`/designer/question/${question.id}/view`)
+                    navigate(routes.designerQuestionsView(question.id))
                 }}
                 style={{width: '50%'}}
             >
@@ -132,20 +133,20 @@ const QuestionRow = ({question}) => {
             <td
                 role='button'
                 onClick={() => {
-                    navigate(`/designer/question/${question.id}/view`)
+                    navigate(routes.designerQuestionsView(question.id))
                 }}
                 style={{width: '30%'}}
             >
                 {question.category ? question.category : '-'}
             </td>
             <td
-                className='designer-question-options d-flex justify-content-around'
+                className='d-flex justify-content-around'
                 style={{width: '100%'}}
             >
                 <button
                     className='btn btn-outline-secondary'
                     onClick={() => {
-                        navigate(`/designer/question/${question.id}/edit`)
+                        navigate(routes.designerQuestionsEdit(question.id))
                     }}
                 >
                     &#9998;

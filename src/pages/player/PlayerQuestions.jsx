@@ -5,6 +5,7 @@ import {Table} from "react-bootstrap";
 import PlayerSidebar from "../../components/PlayerSidebar";
 import Content from "../../components/Content";
 import PaginationComponent from "../../components/PaginationComponent";
+import {routes} from "../../routes";
 
 const PlayerQuestions = () => {
     const categories = [
@@ -68,7 +69,7 @@ const PlayerQuestions = () => {
                     <div className='d-flex w-25 justify-content-end'>
                         <div className="d-flex" id='buttons-wrapper'>
                             <button
-                                onClick={() => navigate('/player/question/1/answer')}
+                                onClick={() => navigate(routes.playerQuestionsAnswer(1))}
                                 className="btn btn-primary me-3"
                             >
                                 Answer Random
@@ -144,7 +145,7 @@ const QuestionRow = ({question}) => {
             <td
                 role='button'
                 onClick={() => {
-                    navigate(`/player/question/${question.id}/view`)
+                    navigate(routes.playerQuestionsView(question.id))
                 }}
                 style={{width: '10%'}}
             >
@@ -153,7 +154,7 @@ const QuestionRow = ({question}) => {
             <td
                 role='button'
                 onClick={() => {
-                    navigate(`/player/question/${question.id}/view`)
+                    navigate(routes.playerQuestionsView(question.id))
                 }}
                 style={{width: '50%'}}
             >
@@ -162,7 +163,7 @@ const QuestionRow = ({question}) => {
             <td
                 role='button'
                 onClick={() => {
-                    navigate(`/player/question/${question.id}/view`)
+                    navigate(routes.playerQuestionsView(question.id))
                 }}
                 style={{width: '30%'}}
             >
@@ -189,7 +190,7 @@ const CategoriesList = ({count}) => {
                     aria-label="Close"
                     className="list-group-item list-group-item-action"
                     onClick={() => {
-                        navigate(`/player/question/${index}/answer`);
+                        navigate(routes.playerQuestionsAnswer(index));
                     }}
                 >
                     Category {index}

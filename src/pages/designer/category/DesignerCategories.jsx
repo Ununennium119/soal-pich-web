@@ -5,6 +5,7 @@ import Content from "../../../components/Content";
 import ConfirmationPopover from "../../../components/ConfirmationButton";
 import PaginationComponent from "../../../components/PaginationComponent";
 import {useState} from "react";
+import {routes} from "../../../routes";
 
 const DesignerCategories = () => {
     const categories = [
@@ -48,7 +49,7 @@ const DesignerCategories = () => {
                     </div>
 
                     <div className='d-flex w-25 justify-content-end'>
-                        <Link to={'/designer/categories/create'} className="btn btn-primary w-auto ps-5 pe-5">
+                        <Link to={routes.designerCategoriesCreate} className="btn btn-primary w-auto ps-5 pe-5">
                             New
                         </Link>
                     </div>
@@ -97,7 +98,7 @@ const CategoryRow = ({category}) => {
                 <button
                     className='btn btn-outline-secondary'
                     onClick={() => {
-                        navigate(`/designer/category/${category.id}/edit`)
+                        navigate(routes.designerCategoriesEdit(category.id))
                     }}
                 >
                     &#9998;

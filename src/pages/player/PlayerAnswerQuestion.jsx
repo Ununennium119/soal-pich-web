@@ -1,5 +1,6 @@
 import PlayerSidebar from "../../components/PlayerSidebar";
 import Content from "../../components/Content";
+import {routes} from "../../routes";
 
 const PlayerAnswerQuestion = () => {
     return (
@@ -9,7 +10,7 @@ const PlayerAnswerQuestion = () => {
             <Content
                 header='Questions'
                 subHeader='Answer'
-                headerRoute='/player/questions'
+                headerRoute={routes.playerQuestions}
             >
                 <div className='d-flex flex-column w-75 mt-4'>
                     <p><span className="fw-bold">Category:</span> Sports</p>

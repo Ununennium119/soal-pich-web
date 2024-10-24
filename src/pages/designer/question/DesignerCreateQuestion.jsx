@@ -1,5 +1,6 @@
 import DesignerSidebar from "../../../components/DesignerSidebar";
 import Content from "../../../components/Content";
+import {routes} from "../../../routes";
 
 const DesignerCreateQuestion = () => {
     return (
@@ -9,7 +10,7 @@ const DesignerCreateQuestion = () => {
             <Content
                 header='Questions'
                 subHeader='Create'
-                headerRoute='/designer/questions'
+                headerRoute={routes.designerQuestions}
             >
                 <div className='d-flex align-items-center w-75 mb-4'>
                     <form className="form-control">
