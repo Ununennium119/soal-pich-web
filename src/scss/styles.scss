@@ -1,15 +1,11 @@
-@use "variables";
+@use "../../node_modules/bootstrap/scss/bootstrap" as *;
 
 body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background-color: variables.$background-color;
-  font-family: variables.$font-family;
-}
-
-a {
-  color: variables.$link-color;
+  background-color: $white;
+  font-family: 'open-sans', sans-serif;
 }
 
 .wrapper {

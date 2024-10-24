@@ -1,19 +1,99 @@
+import PropTypes from "prop-types";
+import {Link, useNavigate} from "react-router-dom";
 import DesignerSidebar from "../../../components/DesignerSidebar";
 import Content from "../../../components/Content";
-import Pagination from "../../../components/Pagination";
-import "../../../scss/designer/category/_designer_categories.scss"
-import {Link, useNavigate} from "react-router-dom";
 import ConfirmationPopover from "../../../components/ConfirmationButton";
-import PropTypes from "prop-types";
+import PaginationComponent from "../../../components/PaginationComponent";
+import {useState} from "react";
+
+const DesignerCategories = () => {
+    const categories = [
+        {
+            id: 1,
+            title: "Sports",
+        },
+        {
+            id: 2,
+            title: "Mathematics",
+        },
+        {
+            id: 3,
+            title: "History",
+        },
+        {
+            id: 4,
+            title: "General",
+        },
+    ]
+
+    const [activePage, setActivePage] = useState(1);
+    const [totalPages] = useState(150);
+
+    return (
+        <div className="wrapper">
+            <DesignerSidebar/>
+
+            <Content
+                header="Categories"
+            >
+                <div className='w-100 d-flex justify-content-between mb-4'>
+                    <div className="d-flex align-items-start w-100">
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="title-input"
+                            placeholder="Filter by title..."
+                            style={{width: '30%'}}
+                        />
+                    </div>
+
+                    <div className='d-flex w-25 justify-content-end'>
+                        <Link to={'/designer/categories/create'} className="btn btn-primary w-auto ps-5 pe-5">
+                            New
+                        </Link>
+                    </div>
+                </div>
+
+                <table className="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th key='id'>ID</th>
+                        <th key='title'>Title</th>
+                        <th key='options'>Options</th>
+                    </tr>
+                    </thead>
+                    <tbody id="dataTable">
+                    {categories.map((category) => {
+                        return <CategoryRow
+                            key={category.id}
+                            category={{
+                                id: category.id,
+                                title: category.title,
+                            }}/>
+                    })}
+                    </tbody>
+                </table>
+
+                <PaginationComponent
+                    activePage={activePage}
+                    totalPages={totalPages}
+                    onPageChange={(pageNumber) => {
+                        setActivePage(pageNumber)
+                    }}
+                />
+            </Content>
+        </div>
+    )
+}
 
 const CategoryRow = ({category}) => {
     const navigate = useNavigate()
 
     return (
         <tr>
-            <td className='designer-category-id'>{category.id}</td>
-            <td className='designer-category-title'>{category.title}</td>
-            <td className='designer-category-options d-flex justify-content-around'>
+            <td style={{width: '10%'}}>{category.id}</td>
+            <td style={{width: '80%'}}>{category.title}</td>
+            <td style={{width: '100%'}} className='d-flex justify-content-around'>
                 <button
                     className='btn btn-outline-secondary'
                     onClick={() => {
@@ -42,59 +122,6 @@ CategoryRow.propTypes = {
         id: PropTypes.number.isRequired,
         title: PropTypes.string.isRequired,
     }),
-}
-
-const DesignerCategories = () => {
-    return (
-        <div className="wrapper">
-            <DesignerSidebar/>
-
-            <Content
-                header="Categories"
-                contentHeaderId="designer-categories-content-header"
-                contentId='designer-categories-content'
-            >
-                <div className='options w-100 d-flex justify-content-between'>
-                    <div className="filter w-75">
-                        <input type="text" className="form-control" id="title-input"
-                               placeholder="Filter by title..."/>
-                    </div>
-
-                    <div className='d-flex w-25 justify-content-end'>
-                        <Link to={'/designer/categories/create'} className="btn btn-primary w-50">
-                            New
-                        </Link>
-                    </div>
-                </div>
-
-                <table className="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Options</th>
-                    </tr>
-                    </thead>
-                    <tbody id="dataTable">
-                    <CategoryRow category={{
-                        id: 1,
-                        title: "Sports",
-                    }}/>
-                    <CategoryRow category={{
-                        id: 2,
-                        title: "Mathematics",
-                    }}/>
-                    <CategoryRow category={{
-                        id: 3,
-                        title: "General",
-                    }}/>
-                    </tbody>
-                </table>
-
-                <Pagination/>
-            </Content>
-        </div>
-    )
 }
 
 export default DesignerCategories;

@@ -1,7 +1,6 @@
+import PropTypes from "prop-types";
 import React, {useEffect, useRef, useState} from 'react';
 import {Button, Overlay, Popover} from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import PropTypes from "prop-types";
 
 const ConfirmationPopover = ({triggerButton, onConfirm, placement = 'left'}) => {
     const [show, setShow] = useState(false);

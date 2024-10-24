@@ -1,5 +1,5 @@
-import Content from "../../components/Content";
 import DesignerSidebar from "../../components/DesignerSidebar";
+import Content from "../../components/Content";
 
 const DesignerDashboard = () => {
     return (

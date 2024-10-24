@@ -1,100 +1,114 @@
+import PropTypes from "prop-types";
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {Table} from "react-bootstrap";
 import PlayerSidebar from "../../components/PlayerSidebar";
 import Content from "../../components/Content";
-import '../../scss/player/_player_questions.scss'
-import Pagination from "../../components/Pagination";
-import {Link, useNavigate} from "react-router-dom";
-import PropTypes from "prop-types";
-
-const CategoriesList = ({count}) => {
-    const navigate = useNavigate()
-    return (
-        <div className="list-group scrollable-list" id="categoryList">
-            {[...Array(count)].map((_, index) => (
-                <button
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                    className="list-group-item list-group-item-action"
-                    onClick={() => {
-                        navigate(`/player/question/${index}/answer`);
-                    }}
-                >
-                    Category {index}
-                </button>
-            ))}
-        </div>
-    );
-};
-CategoriesList.propTypes = {
-    count: PropTypes.number.isRequired,
-}
+import PaginationComponent from "../../components/PaginationComponent";
 
 const PlayerQuestions = () => {
+    const categories = [
+        "Sports",
+        "Mathematics",
+        "History",
+        "General",
+    ]
+    const questions = [
+        {
+            id: 1,
+            title: 'Question #1',
+            category: 'Sports',
+        },
+        {
+            id: 2,
+            title: 'Question #2',
+            category: 'Mathematics',
+        },
+        {
+            id: 3,
+            title: 'Question #3',
+            category: null,
+        },
+    ]
+
     const navigate = useNavigate()
+
+    const [activePage, setActivePage] = useState(1);
+    const [totalPages] = useState(150);
+
     return (
         <div className="wrapper">
             <PlayerSidebar/>
 
             <Content
                 header='Questions'
-                contentHeaderId='player-questions-content-header'
-                contentId='player-questions-content'
             >
-                <div id ='options'>
-                    <div className="d-flex" id='filters-wrapper'>
-                        <input type="text" id="filterInput" className="form-control"
-                               placeholder="Filter by title..."/>
-                        <select className="form-control" id="categoryFilter">
-                            <option value="">Filter by category:</option>
-                            <option value="Admin">Sports</option>
-                            <option value="User">Mathematics</option>
-                            <option value="Editor">General</option>
-                        </select>
+                <div className='options w-100 d-flex justify-content-between mb-4'>
+                    <div className="d-flex justify-content-start w-50">
+                        <div className="d-flex align-items-center w-50 me-5">
+                            <input
+                                type="text"
+                                className="form-control d-inline-block w-100"
+                                id="title-input"
+                                placeholder="Filter by title..."
+                            />
+                        </div>
+
+                        <div className="d-flex w-50 justify-content-start align-items-center">
+                            <label htmlFor='category-filter' className='d-inline-block me-3'>Category</label>
+                            <select className="form-control d-inline-block w-50" id="category-filter">
+                                <option key={null} value={null}>All</option>
+                                {categories.map((category) => {
+                                    return <option key={category} value={category}>{category}</option>
+                                })}
+                            </select>
+                        </div>
                     </div>
 
-                    <div className="d-flex" id='buttons-wrapper'>
-                        <Link to={'/player/question/1/answer'} className="btn btn-primary">
-                            Answer Random
-                        </Link>
-                        <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#category-modal">
-                            Answer By Category
-                        </button>
+                    <div className='d-flex w-25 justify-content-end'>
+                        <div className="d-flex" id='buttons-wrapper'>
+                            <button
+                                onClick={() => navigate('/player/question/1/answer')}
+                                className="btn btn-primary me-3"
+                            >
+                                Answer Random
+                            </button>
+                            <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#category-modal">
+                                Answer By Category
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <table className="table table-bordered">
+                <Table hover={true} className="table table-bordered">
                     <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Category</th>
+                        <th key='id'>ID</th>
+                        <th key='title'>Title</th>
+                        <th key='category'>Category</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr onClick={() => {
-                        navigate(`/player/question/1/view`);
-                    }}>
-                        <td>1</td>
-                        <td>Question #1</td>
-                        <td>Sports</td>
-                    </tr>
-                    <tr onClick={() => {
-                        navigate(`/player/question/2/view`);
-                    }}>
-                        <td>2</td>
-                        <td>Question #2</td>
-                        <td>Mathematics</td>
-                    </tr>
-                    <tr onClick={() => {
-                        navigate(`/player/question/3/view`);
-                    }}>
-                        <td>3</td>
-                        <td>Question #3</td>
-                        <td>-</td>
-                    </tr>
+                    {questions.map((question) => {
+                        return <QuestionRow
+                            key={question.id}
+                            question={{
+                                id: question.id,
+                                title: question.title,
+                                category: question.category
+                            }}
+                        />
+                    })}
                     </tbody>
-                </table>
+                </Table>
 
-                <Pagination/>
+                <PaginationComponent
+                    activePage={activePage}
+                    totalPages={totalPages}
+                    onPageChange={(pageNumber) => {
+                        setActivePage(pageNumber)
+                    }}
+                />
             </Content>
 
             <div className="modal fade" id="category-modal" tabIndex="-1" aria-labelledby="category-modal-title"
@@ -120,6 +134,72 @@ const PlayerQuestions = () => {
             </div>
         </div>
     )
+}
+
+const QuestionRow = ({question}) => {
+    const navigate = useNavigate()
+
+    return (
+        <tr>
+            <td
+                role='button'
+                onClick={() => {
+                    navigate(`/player/question/${question.id}/view`)
+                }}
+                style={{width: '10%'}}
+            >
+                {question.id}
+            </td>
+            <td
+                role='button'
+                onClick={() => {
+                    navigate(`/player/question/${question.id}/view`)
+                }}
+                style={{width: '50%'}}
+            >
+                {question.title}
+            </td>
+            <td
+                role='button'
+                onClick={() => {
+                    navigate(`/player/question/${question.id}/view`)
+                }}
+                style={{width: '30%'}}
+            >
+                {question.category ? question.category : '-'}
+            </td>
+        </tr>
+    )
+}
+QuestionRow.propTypes = {
+    question: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        title: PropTypes.string.isRequired,
+        category: PropTypes.string,
+    }),
+}
+
+const CategoriesList = ({count}) => {
+    const navigate = useNavigate()
+    return (
+        <div className="list-group overflow-y-scroll" id="categoryList" style={{maxHeight: '300px'}}>
+            {[...Array(count)].map((_, index) => (
+                <button
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                    className="list-group-item list-group-item-action"
+                    onClick={() => {
+                        navigate(`/player/question/${index}/answer`);
+                    }}
+                >
+                    Category {index}
+                </button>
+            ))}
+        </div>
+    );
+};
+CategoriesList.propTypes = {
+    count: PropTypes.number.isRequired,
 }
 
 export default PlayerQuestions;
