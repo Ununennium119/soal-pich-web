@@ -1,5 +1,5 @@
 @use "sass:color";
-@import "variables";
+@use "variables";
 
 .sidebar-wrapper {
   position: fixed;
@@ -8,13 +8,13 @@
   min-height: 100vh;
   width: 250px;
   padding: 15px;
-  background: $sidebar-bg;
+  background: variables.$sidebar-bg;
 }
 
 .sidebar-heading {
   width: 100%;
   margin: 10px auto 30px 10px;
-  color: $sidebar-color;
+  color: variables.$sidebar-color;
   font-size: 24px;
   font-weight: 600;
 }
@@ -32,19 +32,19 @@
   border-radius: 10px;
 
   &:hover {
-    background-color: color.adjust($sidebar-bg, $lightness: 10%);
+    background-color: color.adjust(variables.$sidebar-bg, $lightness: 10%);
   }
 
   &.selected {
-    border-left: 2px solid $primary-color;
-    background-color: color.adjust($sidebar-bg, $lightness: 10%);
+    border-left: 2px solid variables.$primary-color;
+    background-color: color.adjust(variables.$sidebar-bg, $lightness: 10%);
   }
 
   a {
     display: block;
     width: 100%;
     text-decoration: none;
-    color: $sidebar-color;
+    color: variables.$sidebar-color;
     padding: 15px 15px;
     box-sizing: border-box;
   }

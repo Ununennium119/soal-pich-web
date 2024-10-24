@@ -1,5 +1,5 @@
 @use "sass:color";
-@import "../variables";
+@use "../variables";
 
 #player-scoreboard-content {
   display: flex;
@@ -31,10 +31,10 @@
     }
 
     .current {
-      border: 2px solid $secondary-color;
+      border: 2px solid variables.$secondary-color;
 
       td {
-        background: color.adjust($background-color, $lightness: -10%);
+        background: color.adjust(variables.$background-color, $lightness: -10%);
       }
     }
   }

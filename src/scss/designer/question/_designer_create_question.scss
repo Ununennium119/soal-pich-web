@@ -1,9 +1,9 @@
-@import "../../variables";
+@use "../../variables";
 
 #designer-create-question-content-header {
   a {
     text-decoration: none;
-    color: $link-color;
+    color: variables.$link-color;
   };
 }
 

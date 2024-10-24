@@ -1,15 +1,15 @@
-@import "variables";
+@use "variables";
 
 body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background-color: $background-color;
-  font-family: $font-family;
+  background-color: variables.$background-color;
+  font-family: variables.$font-family;
 }
 
 a {
-  color: $link-color;
+  color: variables.$link-color;
 }
 
 .wrapper {

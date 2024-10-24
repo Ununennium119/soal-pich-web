@@ -1,4 +1,4 @@
-@import "variables";
+@use "variables";
 
 .content-wrapper {
   display: flex;
@@ -15,7 +15,7 @@
   flex-direction: row;
   width: 100%;
   align-items: center;
-  border-bottom: 1px solid $secondary-color;
+  border-bottom: 1px solid variables.$secondary-color;
 
   h1 {
     left: 280px;
