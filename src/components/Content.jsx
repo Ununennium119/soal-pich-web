@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 
 const Content = ({children, header, subHeader, headerRoute}) => {
     return (
-        <div className="d-flex flex-column w-100 h-100 p-5" style={{marginLeft: '250px'}}>
+        <div className="d-flex flex-column w-100 h-100 p-5" style={{marginLeft: '220px'}}>
             <div className='d-flex flex-row w-100 border-bottom border-secondary mb-4'>
                 <h1>
                     {
