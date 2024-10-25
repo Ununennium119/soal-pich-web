@@ -2,7 +2,7 @@ const InfoCard = ({title, value, color}) => {
     return (
         <div
             className="d-block p-2 border-secondary-subtle border-1 rounded-2 p-4 m-3"
-            style={{borderStyle: "solid", width: "250px"}}
+            style={{borderStyle: "solid", width: "300px"}}
         >
             <div className="d-flex col align-items-center mb-3">
                         <span className="d-inline-block me-2"

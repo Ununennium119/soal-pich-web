@@ -43,65 +43,71 @@ const DesignerQuestions = () => {
             <Content
                 header='Questions'
             >
-                <div className='w-100 d-flex justify-content-between mb-4'>
-                    <div className="d-flex justify-content-start w-50">
-                        <div className="d-flex align-items-center w-50 me-5">
-                            <input
-                                type="text"
-                                className="form-control d-inline-block w-100"
-                                id="title-input"
-                                placeholder="Filter by title..."
-                            />
+                <div className="card w-100">
+                    <div className='card-header w-100 d-flex justify-content-between p-3'>
+                        <div className="d-flex justify-content-start w-50">
+                            <div className="d-flex align-items-center w-50 me-5">
+                                <input
+                                    type="text"
+                                    className="form-control d-inline-block w-100"
+                                    id="title-input"
+                                    placeholder="Filter by title..."
+                                />
+                            </div>
+
+                            <div className="d-flex w-50 justify-content-start align-items-center">
+                                <label htmlFor='category-filter' className='d-inline-block me-3'>Category</label>
+                                <select className="form-control d-inline-block w-50" id="category-filter">
+                                    <option key={null} value={null}>All</option>
+                                    {categories.map((category) => {
+                                        return <option key={category} value={category}>{category}</option>
+                                    })}
+                                </select>
+                            </div>
                         </div>
 
-                        <div className="d-flex w-50 justify-content-start align-items-center">
-                            <label htmlFor='category-filter' className='d-inline-block me-3'>Category</label>
-                            <select className="form-control d-inline-block w-50" id="category-filter">
-                                <option key={null} value={null}>All</option>
-                                {categories.map((category) => {
-                                    return <option key={category} value={category}>{category}</option>
-                                })}
-                            </select>
+                        <div className='d-flex w-25 justify-content-end'>
+                            <Link to={routes.designerQuestionsCreate} className="btn btn-primary w-auto ps-5 pe-5">
+                                New
+                            </Link>
                         </div>
                     </div>
 
-                    <div className='d-flex w-25 justify-content-end'>
-                        <Link to={routes.designerQuestionsCreate} className="btn btn-primary w-auto ps-5 pe-5">
-                            New
-                        </Link>
+                    <div className="card-body">
+                        <Table hover={true} className="table align-middle">
+                            <thead className="rounded-5 bg-gray">
+                            <tr>
+                                <th key='id'>ID</th>
+                                <th key='title'>Title</th>
+                                <th key='category'>Category</th>
+                                <th key='options'>Options</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {questions.map((question) => {
+                                return <QuestionRow
+                                    key={question.id}
+                                    question={{
+                                        id: question.id,
+                                        title: question.title,
+                                        category: question.category
+                                    }}
+                                />
+                            })}
+                            </tbody>
+                        </Table>
                     </div>
-                </div>
 
-                <Table hover={true} className="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th key='id'>ID</th>
-                        <th key='title'>Title</th>
-                        <th key='category'>Category</th>
-                        <th key='options'>Options</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {questions.map((question) => {
-                        return <QuestionRow
-                            key={question.id}
-                            question={{
-                                id: question.id,
-                                title: question.title,
-                                category: question.category
+                    <div className="card-footer d-flex justify-content-center p-3">
+                        <PaginationComponent
+                            activePage={activePage}
+                            totalPages={totalPages}
+                            onPageChange={(pageNumber) => {
+                                setActivePage(pageNumber)
                             }}
                         />
-                    })}
-                    </tbody>
-                </Table>
-
-                <PaginationComponent
-                    activePage={activePage}
-                    totalPages={totalPages}
-                    onPageChange={(pageNumber) => {
-                        setActivePage(pageNumber)
-                    }}
-                />
+                    </div>
+                </div>
             </Content>
         </div>
     )

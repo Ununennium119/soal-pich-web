@@ -12,7 +12,7 @@ const PlayerDashboard = () => {
                 <div className="d-flex">
                     <InfoCard title="Answered Questions" value={628} color="var(--bs-primary)"/>
                     <InfoCard title="Correct Answers" value={512} color="var(--bs-success)"/>
-                    <InfoCard title="Rank" value={11} color="var(--bs-warning)"/>
+                    <InfoCard title="Rank" value={3} color="var(--bs-warning)"/>
                 </div>
             </Content>
         </div>

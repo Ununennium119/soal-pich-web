@@ -75,7 +75,7 @@ const PaginationComponent = ({activePage, totalPages, onPageChange}) => {
     };
 
     return (
-        <Pagination>
+        <Pagination className="mb-0">
             <Pagination.Prev
                 onClick={() => handlePageChange(activePage - 1)}
                 disabled={activePage === 1}

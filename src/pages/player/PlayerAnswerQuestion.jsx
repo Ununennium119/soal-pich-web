@@ -12,10 +12,10 @@ const PlayerAnswerQuestion = () => {
                 subHeader='Answer'
                 headerRoute={routes.playerQuestions}
             >
-                <div className='d-flex flex-column w-75 mt-4'>
+                <div className='d-flex flex-column w-75'>
                     <p><span className="fw-bold">Category:</span> Sports</p>
                     <p><span className="fw-bold">Difficulty:</span> Easy</p>
-                    <form className="form-control">
+                    <form className="form-control pb-3">
                         <p>Which country won the FIFA World Cup in 2022?</p>
                         <label className="d-block">
                             <input type="radio" name="answer" value="Brazil" required/> Brazil

@@ -6,6 +6,7 @@ import ConfirmationPopover from "../../../components/ConfirmationButton";
 import PaginationComponent from "../../../components/PaginationComponent";
 import {useState} from "react";
 import {routes} from "../../../routes";
+import {Table} from "react-bootstrap";
 
 const DesignerCategories = () => {
     const categories = [
@@ -37,51 +38,57 @@ const DesignerCategories = () => {
             <Content
                 header="Categories"
             >
-                <div className='w-100 d-flex justify-content-between mb-4'>
-                    <div className="d-flex align-items-start w-100">
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="title-input"
-                            placeholder="Filter by title..."
-                            style={{width: '30%'}}
+                <div className="card w-100">
+                    <div className='card-header w-100 d-flex justify-content-between p-3'>
+                        <div className="d-flex align-items-start w-100">
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="title-input"
+                                placeholder="Filter by title..."
+                                style={{width: '30%'}}
+                            />
+                        </div>
+
+                        <div className='d-flex w-25 justify-content-end'>
+                            <Link to={routes.designerCategoriesCreate} className="btn btn-primary w-auto ps-5 pe-5">
+                                New
+                            </Link>
+                        </div>
+                    </div>
+
+                    <div className="card-body">
+                        <Table className="table align-middle">
+                            <thead>
+                            <tr>
+                                <th key='id'>ID</th>
+                                <th key='title'>Title</th>
+                                <th key='options'>Options</th>
+                            </tr>
+                            </thead>
+                            <tbody id="dataTable">
+                            {categories.map((category) => {
+                                return <CategoryRow
+                                    key={category.id}
+                                    category={{
+                                        id: category.id,
+                                        title: category.title,
+                                    }}/>
+                            })}
+                            </tbody>
+                        </Table>
+                    </div>
+
+                    <div className="card-footer d-flex justify-content-center p-3">
+                        <PaginationComponent
+                            activePage={activePage}
+                            totalPages={totalPages}
+                            onPageChange={(pageNumber) => {
+                                setActivePage(pageNumber)
+                            }}
                         />
                     </div>
-
-                    <div className='d-flex w-25 justify-content-end'>
-                        <Link to={routes.designerCategoriesCreate} className="btn btn-primary w-auto ps-5 pe-5">
-                            New
-                        </Link>
-                    </div>
                 </div>
-
-                <table className="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th key='id'>ID</th>
-                        <th key='title'>Title</th>
-                        <th key='options'>Options</th>
-                    </tr>
-                    </thead>
-                    <tbody id="dataTable">
-                    {categories.map((category) => {
-                        return <CategoryRow
-                            key={category.id}
-                            category={{
-                                id: category.id,
-                                title: category.title,
-                            }}/>
-                    })}
-                    </tbody>
-                </table>
-
-                <PaginationComponent
-                    activePage={activePage}
-                    totalPages={totalPages}
-                    onPageChange={(pageNumber) => {
-                        setActivePage(pageNumber)
-                    }}
-                />
             </Content>
         </div>
     )

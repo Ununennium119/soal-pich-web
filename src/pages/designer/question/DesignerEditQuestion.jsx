@@ -12,8 +12,8 @@ const DesignerEditQuestion = () => {
                 subHeader='World Cup 2022 Winner'
                 headerRoute={routes.designerQuestions}
             >
-                <div className='d-flex align-items-center w-75 mb-4'>
-                    <form className="form-control">
+                <div className='d-flex align-items-center w-75'>
+                    <form className="form-control pb-3">
                         <div className="flex-row">
                             <div className="mb-4">
                                 <label htmlFor="title-input" className="form-label">Title</label>
@@ -97,7 +97,7 @@ const DesignerEditQuestion = () => {
                                 </select>
                             </div>
 
-                            <div className="mb-4">
+                            <div>
                                 <button type="submit" className="btn btn-primary w-100">Save</button>
                             </div>
                         </div>

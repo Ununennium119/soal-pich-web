@@ -3,6 +3,7 @@ import {useState} from "react";
 import PlayerSidebar from "../../components/PlayerSidebar.jsx";
 import Content from "../../components/Content";
 import PaginationComponent from "../../components/PaginationComponent";
+import {Table} from "react-bootstrap";
 
 const PlayerScoreboard = () => {
     const users = [
@@ -69,34 +70,40 @@ const PlayerScoreboard = () => {
             <Content
                 header='Scoreboard'
             >
-                <table className="table table-bordered w-50">
-                    <thead>
-                    <tr>
-                        <th className='text-center' style={{width: '20%'}}>Rank</th>
-                        <th className='text-center' style={{width: '55%'}}>Username</th>
-                        <th className='text-center' style={{width: '25%'}}>Score</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {
-                        users.map((user) => {
-                            return (
-                                UserRow({
-                                    user: user,
-                                    isCurrent: user.username === currentUser,
-                                }))
-                        })
-                    }
-                    </tbody>
-                </table>
+                <div className="card w-100">
+                    <div className="card-body">
+                        <Table className="table align-middle">
+                            <thead>
+                            <tr>
+                                <th className='text-center' style={{width: '20%'}}>Rank</th>
+                                <th className='text-center' style={{width: '55%'}}>Username</th>
+                                <th className='text-center' style={{width: '25%'}}>Score</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {
+                                users.map((user) => {
+                                    return (
+                                        UserRow({
+                                            user: user,
+                                            isCurrent: user.username === currentUser,
+                                        }))
+                                })
+                            }
+                            </tbody>
+                        </Table>
+                    </div>
 
-                <PaginationComponent
-                    activePage={activePage}
-                    totalPages={totalPages}
-                    onPageChange={(pageNumber) => {
-                        setActivePage(pageNumber)
-                    }}
-                />
+                    <div className="card-footer d-flex justify-content-center p-3">
+                        <PaginationComponent
+                            activePage={activePage}
+                            totalPages={totalPages}
+                            onPageChange={(pageNumber) => {
+                                setActivePage(pageNumber)
+                            }}
+                        />
+                    </div>
+                </div>
             </Content>
         </div>
     )
@@ -104,10 +111,10 @@ const PlayerScoreboard = () => {
 
 const UserRow = ({user, isCurrent}) => {
     return (
-        <tr className={isCurrent ? "border-success-subtle border-2" : ""}>
-            <td className={isCurrent ? "text-center bg-success-subtle" : "text-center"}>{user.rank}</td>
-            <td className={isCurrent ? "bg-success-subtle" : ""}>{user.username}</td>
-            <td className={isCurrent ? "text-center bg-success-subtle" : "text-center"}>{user.score}</td>
+        <tr>
+            <td className={`text-center ${isCurrent ? "bg-success-subtle" : ""}`}>{user.rank}</td>
+            <td className={`text-center ${isCurrent ? "bg-success-subtle" : ""}`}>{user.username}</td>
+            <td className={`text-center ${isCurrent ? "bg-success-subtle" : ""}`}>{user.score}</td>
         </tr>
     )
 }
