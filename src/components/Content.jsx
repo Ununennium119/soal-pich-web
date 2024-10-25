@@ -3,9 +3,9 @@ import {Link} from "react-router-dom";
 
 const Content = ({children, header, subHeader, headerRoute}) => {
     return (
-        <div className="d-flex flex-column w-100 h-100 p-5" style={{marginLeft: '220px'}}>
-            <div className='d-flex flex-row w-100 border-bottom border-secondary mb-4'>
-                <h1>
+        <div className="card d-flex flex-column w-100 rounded-0 overflow-scroll" style={{marginLeft: '220px'}}>
+            <div className='card-header pt-3 ps-4'>
+                <h3 className="fw-bold">
                     {
                         headerRoute ?
                             <Link
@@ -15,9 +15,9 @@ const Content = ({children, header, subHeader, headerRoute}) => {
                             </Link> : header
                     }
                     {subHeader ? (<span> &#x276D; {subHeader}</span>) : null}
-                </h1>
+                </h3>
             </div>
-            <div className="d-flex flex-column w-100 align-items-center">
+            <div className="card-body d-flex flex-column w-100 align-items-center p-4">
                 {children}
             </div>
         </div>

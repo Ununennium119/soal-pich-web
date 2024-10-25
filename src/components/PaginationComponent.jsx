@@ -3,6 +3,8 @@ import {Pagination} from 'react-bootstrap';
 import PropTypes from "prop-types";
 
 const PaginationComponent = ({activePage, totalPages, onPageChange}) => {
+    const paginationItemWidth = "55px"
+
     const handlePageChange = (pageNumber) => {
         if (pageNumber !== activePage) {
             onPageChange(pageNumber);
@@ -26,7 +28,7 @@ const PaginationComponent = ({activePage, totalPages, onPageChange}) => {
                 <Pagination.Item
                     key={1}
                     onClick={() => handlePageChange(1)}
-                    style={{width: '50px'}}
+                    style={{width: paginationItemWidth}}
                     className='text-center'
                 >
                     1
@@ -44,7 +46,7 @@ const PaginationComponent = ({activePage, totalPages, onPageChange}) => {
                     key={page}
                     active={page === activePage}
                     onClick={() => handlePageChange(page)}
-                    style={{width: '50px'}}
+                    style={{width: paginationItemWidth}}
                     className='text-center'
                 >
                     {page}
@@ -61,7 +63,7 @@ const PaginationComponent = ({activePage, totalPages, onPageChange}) => {
                 <Pagination.Item
                     key={totalPages}
                     onClick={() => handlePageChange(totalPages)}
-                    style={{width: '50px'}}
+                    style={{width: paginationItemWidth}}
                     className='text-center'
                 >
                     {totalPages}
@@ -77,14 +79,14 @@ const PaginationComponent = ({activePage, totalPages, onPageChange}) => {
             <Pagination.Prev
                 onClick={() => handlePageChange(activePage - 1)}
                 disabled={activePage === 1}
-                style={{width: '50px'}}
+                style={{width: paginationItemWidth}}
                 className='text-center'
             />
             {getPaginationItems()}
             <Pagination.Next
                 onClick={() => handlePageChange(activePage + 1)}
                 disabled={activePage === totalPages}
-                style={{width: '50px'}}
+                style={{width: paginationItemWidth}}
                 className='text-center'
             />
         </Pagination>
