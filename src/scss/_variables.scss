@@ -1,0 +1,23 @@
+$primary-light: #3498db;
+$secondary-light: #2ecc71;
+$background-light: #ffffff;
+$text-color-light: #333333;
+
+$primary-dark: #0d6efd;
+$secondary-dark: #1abc9c;
+$background-dark: #121212;
+$text-color-dark: #f8f9fa;
+
+:root {
+  --primary: #{$primary-light};
+  --secondary: #{$secondary-light};
+  --background: #{$background-light};
+  --text-color: #{$text-color-light};
+}
+
+[data-theme='dark'] {
+  --primary: #{$primary-dark};
+  --secondary: #{$secondary-dark};
+  --background: #{$background-dark};
+  --text-color: #{$text-color-dark};
+}
