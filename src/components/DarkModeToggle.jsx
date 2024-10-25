@@ -8,7 +8,7 @@ const DarkModeToggle = () => {
         <button
             onClick={toggleTheme}
                 className={`btn position-fixed ${theme === 'dark' ? "btn-light" : "btn-dark"}`}
-            style={{right: '50px', bottom: '30px', width: '40px'}}
+            style={{right: '50px', bottom: '30px', width: '40px', zIndex: 1000}}
         >
             {theme === 'dark' ? '☀' : '☾'}
         </button>
