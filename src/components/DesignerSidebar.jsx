@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link, useLocation} from 'react-router-dom';
 import {MdCategory, MdDashboard, MdQuestionMark} from "react-icons/md";
-import logo from '/public/logo512.png'
+import logo from '/src/assets/logo.png?url'
 import {routes} from "../routes";
 import '../scss/_sidebar.scss'
 
