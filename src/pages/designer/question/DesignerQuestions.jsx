@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {Table} from "react-bootstrap";
 import DesignerSidebar from "../../../components/DesignerSidebar";
@@ -7,34 +7,144 @@ import Content from "../../../components/Content";
 import ConfirmationPopover from "../../../components/ConfirmationButton";
 import PaginationComponent from "../../../components/PaginationComponent";
 import {routes} from "../../../routes";
+import {useToast} from "../../../context/ToastContext";
+import {deleteQuestion, listQuestions} from "../../../api/QuestionsApi";
+import {listCategories} from "../../../api/CategoriesApi";
 
 const DesignerQuestions = () => {
-    const categories = [
-        "Sports",
-        "Mathematics",
-        "History",
-        "General",
-    ]
-    const questions = [
-        {
-            id: 1,
-            title: 'Question #1',
-            category: 'Sports',
-        },
-        {
-            id: 2,
-            title: 'Question #2',
-            category: 'Mathematics',
-        },
-        {
-            id: 3,
-            title: 'Question #3',
-            category: null,
-        },
-    ]
+    const {addToast} = useToast();
 
+    const [loading, setLoading] = useState(true);
+    const [categories, setCategories] = useState([]);
+    const [questions, setQuestions] = useState([])
     const [activePage, setActivePage] = useState(1);
-    const [totalPages] = useState(150);
+    const [totalPages, setTotalPages] = useState(1);
+    const [titleFilter, setTitleFilter] = useState("");
+    const [categoryFilter, setCategoryFilter] = useState(null);
+
+    const fetchQuestions = async () => {
+        try {
+            const listQuestionsResponse = await listQuestions({
+                page: activePage - 1,
+                title: titleFilter,
+                category: categoryFilter,
+                order: 'id',
+                direction: 'DESC',
+            });
+            setQuestions(listQuestionsResponse.content)
+            setActivePage(listQuestionsResponse.page + 1);
+            setTotalPages(listQuestionsResponse.totalPages);
+        } catch (err) {
+            err.response.data.errors.forEach((error) => {
+                Object.values(error['constraints']).forEach((constraint) => {
+                    addToast(constraint, 'error')
+                })
+            })
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const fetchCategories = async () => {
+        try {
+            const listCategoriesResponse = await listCategories({});
+            setCategories(listCategoriesResponse)
+        } catch (err) {
+            err.response.data.errors.forEach((error) => {
+                Object.values(error['constraints']).forEach((constraint) => {
+                    addToast(constraint, 'error')
+                })
+            })
+        }
+    };
+
+    useEffect(() => {
+        fetchQuestions()
+    }, [activePage, titleFilter, categoryFilter]);
+
+    useEffect(() => {
+        fetchCategories();
+    }, []);
+
+    const QuestionRow = ({question}) => {
+        const navigate = useNavigate()
+
+        const handleDelete = async (id) => {
+            try {
+                await deleteQuestion(id)
+                await fetchQuestions()
+            } catch (err) {
+                console.log(err)
+                addToast(err.response.data.message, 'error')
+            }
+        }
+
+        return (
+            <tr>
+                <td
+                    role='button'
+                    onClick={() => {
+                        navigate(routes.designerQuestionsView(question.id))
+                    }}
+                    style={{width: '10%'}}
+                >
+                    {question.id}
+                </td>
+                <td
+                    role='button'
+                    onClick={() => {
+                        navigate(routes.designerQuestionsView(question.id))
+                    }}
+                    style={{width: '50%'}}
+                >
+                    {question.title}
+                </td>
+                <td
+                    role='button'
+                    onClick={() => {
+                        navigate(routes.designerQuestionsView(question.id))
+                    }}
+                    style={{width: '30%'}}
+                >
+                    {question.category?.title ? question.category.title : '-'}
+                </td>
+                <td
+                    className='d-flex justify-content-around'
+                    style={{width: '100%'}}
+                >
+                    <button
+                        className='btn btn-outline-secondary'
+                        onClick={() => {
+                            navigate(routes.designerQuestionsEdit(question.id))
+                        }}
+                    >
+                        &#9998;
+                    </button>
+                    <ConfirmationPopover
+                        triggerButton={
+                            <button className='btn btn-outline-danger'>
+                                &#10006;
+                            </button>
+                        }
+                        onConfirm={() => {
+                            handleDelete(question.id)
+                        }}
+                        placement="left"
+                    />
+                </td>
+            </tr>
+        )
+    }
+    QuestionRow.propTypes = {
+        question: PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            title: PropTypes.string.isRequired,
+            category: PropTypes.shape({
+                id: PropTypes.number.isRequired,
+                title: PropTypes.string.isRequired,
+            }),
+        }),
+    }
 
     return (
         <div className="wrapper">
@@ -43,7 +153,7 @@ const DesignerQuestions = () => {
             <Content
                 header='Questions'
             >
-                <div className="card w-100">
+                {loading ? <h5>Loading...</h5> : <div className="card w-100">
                     <div className='card-header w-100 d-flex justify-content-between p-3'>
                         <div className="d-flex justify-content-start w-50">
                             <div className="d-flex align-items-center w-50 me-5">
@@ -52,15 +162,22 @@ const DesignerQuestions = () => {
                                     className="form-control d-inline-block w-100"
                                     id="title-input"
                                     placeholder="Filter by title..."
+                                    value={titleFilter}
+                                    onChange={(e) => setTitleFilter(e.target.value)}
                                 />
                             </div>
 
                             <div className="d-flex w-50 justify-content-start align-items-center">
                                 <label htmlFor='category-filter' className='d-inline-block me-3'>Category</label>
-                                <select className="form-control d-inline-block w-50" id="category-filter">
+                                <select
+                                    className="form-control d-inline-block w-50"
+                                    id="category-filter"
+                                    value={categoryFilter}
+                                    onChange={(e) => setCategoryFilter(e.target.value)}
+                                >
                                     <option key={null} value={null}>All</option>
                                     {categories.map((category) => {
-                                        return <option key={category} value={category}>{category}</option>
+                                        return <option key={category.id} value={category.id}>{category.title}</option>
                                     })}
                                 </select>
                             </div>
@@ -90,7 +207,10 @@ const DesignerQuestions = () => {
                                     question={{
                                         id: question.id,
                                         title: question.title,
-                                        category: question.category
+                                        category: question.category ? {
+                                            id: question.category.id,
+                                            title: question.category.title,
+                                        } : null,
                                     }}
                                 />
                             })}
@@ -107,77 +227,11 @@ const DesignerQuestions = () => {
                             }}
                         />
                     </div>
-                </div>
+                </div>}
             </Content>
         </div>
     )
 }
 
-const QuestionRow = ({question}) => {
-    const navigate = useNavigate()
-
-    return (
-        <tr>
-            <td
-                role='button'
-                onClick={() => {
-                    navigate(routes.designerQuestionsView(question.id))
-                }}
-                style={{width: '10%'}}
-            >
-                {question.id}
-            </td>
-            <td
-                role='button'
-                onClick={() => {
-                    navigate(routes.designerQuestionsView(question.id))
-                }}
-                style={{width: '50%'}}
-            >
-                {question.title}
-            </td>
-            <td
-                role='button'
-                onClick={() => {
-                    navigate(routes.designerQuestionsView(question.id))
-                }}
-                style={{width: '30%'}}
-            >
-                {question.category ? question.category : '-'}
-            </td>
-            <td
-                className='d-flex justify-content-around'
-                style={{width: '100%'}}
-            >
-                <button
-                    className='btn btn-outline-secondary'
-                    onClick={() => {
-                        navigate(routes.designerQuestionsEdit(question.id))
-                    }}
-                >
-                    &#9998;
-                </button>
-                <ConfirmationPopover
-                    triggerButton={
-                        <button className='btn btn-outline-danger'>
-                            &#10006;
-                        </button>
-                    }
-                    onConfirm={() => {
-                        console.log(`Deleting question with id ${question.id}...`)
-                    }}
-                    placement="left"
-                />
-            </td>
-        </tr>
-    )
-}
-QuestionRow.propTypes = {
-    question: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        title: PropTypes.string.isRequired,
-        category: PropTypes.string,
-    }),
-}
 
 export default DesignerQuestions;

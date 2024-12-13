@@ -15,11 +15,11 @@ const PlayerSidebar = () => {
                 <b>Soal Pich</b>
             </div>
             <ul className="sidebar-items-wrapper">
-                <li className={`sidebar-item ${location.pathname === routes.playerDashboard ? 'selected' : ''}`}>
-                    <Link to={routes.playerDashboard}>
-                        <MdDashboard className="sidebar-item-icon"/>Dashboard
-                    </Link>
-                </li>
+                {/*<li className={`sidebar-item ${location.pathname === routes.playerDashboard ? 'selected' : ''}`}>*/}
+                {/*    <Link to={routes.playerDashboard}>*/}
+                {/*        <MdDashboard className="sidebar-item-icon"/>Dashboard*/}
+                {/*    </Link>*/}
+                {/*</li>*/}
                 <li className={`sidebar-item ${location.pathname === routes.playerQuestions ? 'selected' : ''}`}>
                     <Link to={routes.playerQuestions}>
                         <MdQuestionMark className="sidebar-item-icon"/>Questions
