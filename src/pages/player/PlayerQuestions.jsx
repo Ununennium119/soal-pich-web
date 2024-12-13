@@ -1,41 +1,156 @@
 import PropTypes from "prop-types";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Table} from "react-bootstrap";
 import PlayerSidebar from "../../components/PlayerSidebar";
 import Content from "../../components/Content";
 import PaginationComponent from "../../components/PaginationComponent";
 import {routes} from "../../routes";
+import {useToast} from "../../context/ToastContext";
+import {getRandomQuestion, listQuestions} from "../../api/QuestionsApi";
+import {listCategories} from "../../api/CategoriesApi";
 
 const PlayerQuestions = () => {
-    const categories = [
-        "Sports",
-        "Mathematics",
-        "History",
-        "General",
-    ]
-    const questions = [
-        {
-            id: 1,
-            title: 'Question #1',
-            category: 'Sports',
-        },
-        {
-            id: 2,
-            title: 'Question #2',
-            category: 'Mathematics',
-        },
-        {
-            id: 3,
-            title: 'Question #3',
-            category: null,
-        },
-    ]
-
+    const {addToast} = useToast();
     const navigate = useNavigate()
 
+    const [loading, setLoading] = useState(true);
+    const [categories, setCategories] = useState([]);
+    const [questions, setQuestions] = useState([])
     const [activePage, setActivePage] = useState(1);
-    const [totalPages] = useState(150);
+    const [totalPages, setTotalPages] = useState(1);
+    const [titleFilter, setTitleFilter] = useState("");
+    const [categoryFilter, setCategoryFilter] = useState(null);
+
+    const fetchQuestions = async () => {
+        try {
+            const listQuestionsResponse = await listQuestions({
+                page: activePage - 1,
+                title: titleFilter,
+                category: categoryFilter,
+                order: 'id',
+                direction: 'DESC',
+            });
+            setQuestions(listQuestionsResponse.content)
+            setActivePage(listQuestionsResponse.page + 1);
+            setTotalPages(listQuestionsResponse.totalPages);
+        } catch (err) {
+            err.response.data.errors.forEach((error) => {
+                Object.values(error['constraints']).forEach((constraint) => {
+                    addToast(constraint, 'error')
+                })
+            })
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const fetchCategories = async () => {
+        try {
+            const listCategoriesResponse = await listCategories({});
+            setCategories(listCategoriesResponse)
+        } catch (err) {
+            err.response.data.errors.forEach((error) => {
+                Object.values(error['constraints']).forEach((constraint) => {
+                    addToast(constraint, 'error')
+                })
+            })
+        }
+    };
+
+    const handleAnswerRandom = async (category) => {
+        try {
+            const getRandomQuestionResponse = await getRandomQuestion({'category': category})
+            navigate(routes.playerQuestionsAnswer(getRandomQuestionResponse.questionId))
+        } catch (err) {
+            if (err.response.status === 404) {
+                addToast("There is no question to answer.", 'error')
+            } else {
+                err.response.data.errors.forEach((error) => {
+                    Object.values(error['constraints']).forEach((constraint) => {
+                        addToast(constraint, 'error')
+                    })
+                })
+            }
+        }
+    }
+
+    useEffect(() => {
+        fetchQuestions()
+    }, [activePage, titleFilter, categoryFilter]);
+
+    useEffect(() => {
+        fetchCategories();
+    }, []);
+
+    const QuestionRow = ({question}) => {
+        return (
+            <tr>
+                <td
+                    role='button'
+                    onClick={() => {
+                        navigate(routes.playerQuestionsView(question.id))
+                    }}
+                    style={{width: '10%', height: "55px"}}
+                >
+                    {question.id}
+                </td>
+                <td
+                    role='button'
+                    onClick={() => {
+                        navigate(routes.playerQuestionsView(question.id))
+                    }}
+                    style={{width: '50%'}}
+                >
+                    {question.title}
+                </td>
+                <td
+                    role='button'
+                    onClick={() => {
+                        navigate(routes.playerQuestionsView(question.id))
+                    }}
+                    style={{width: '30%'}}
+                >
+                    {question.category?.title ? question.category.title : '-'}
+                </td>
+            </tr>
+        )
+    }
+    QuestionRow.propTypes = {
+        question: PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            title: PropTypes.string.isRequired,
+            category: PropTypes.shape({
+                id: PropTypes.number.isRequired,
+                title: PropTypes.string.isRequired,
+            }),
+        }),
+    }
+
+    const CategoriesList = ({categories}) => {
+        return (
+            <div className="list-group overflow-y-scroll" id="categoryList" style={{maxHeight: '300px'}}>
+                {categories.map(category => (
+                    <button
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                        className="list-group-item list-group-item-action"
+                        onClick={() => {
+                            handleAnswerRandom(category.id)
+                        }}
+                    >
+                        {category.title}
+                    </button>
+                ))}
+            </div>
+        );
+    };
+    CategoriesList.propTypes = {
+        categories: PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            title: PropTypes.string.isRequired,
+        }),
+    }
 
     return (
         <div className="wrapper">
@@ -44,7 +159,7 @@ const PlayerQuestions = () => {
             <Content
                 header='Questions'
             >
-                <div className="card w-100">
+                {loading ? <h5>Loading...</h5> : <div className="card w-100">
                     <div className='card-header w-100 d-flex justify-content-between p-3'>
                         <div className="d-flex justify-content-start w-50">
                             <div className="d-flex align-items-center w-50 me-5">
@@ -53,15 +168,21 @@ const PlayerQuestions = () => {
                                     className="form-control d-inline-block w-100"
                                     id="title-input"
                                     placeholder="Filter by title..."
+                                    value={titleFilter}
+                                    onChange={(e) => setTitleFilter(e.target.value)}
                                 />
                             </div>
 
                             <div className="d-flex w-50 justify-content-start align-items-center">
                                 <label htmlFor='category-filter' className='d-inline-block me-3'>Category</label>
-                                <select className="form-control d-inline-block w-50" id="category-filter">
+                                <select className="form-control d-inline-block w-50"
+                                        id="category-filter"
+                                        value={categoryFilter}
+                                        onChange={(e) => setCategoryFilter(e.target.value)}
+                                >
                                     <option key={null} value={null}>All</option>
                                     {categories.map((category) => {
-                                        return <option key={category} value={category}>{category}</option>
+                                        return <option key={category.id} value={category.id}>{category.title}</option>
                                     })}
                                 </select>
                             </div>
@@ -70,7 +191,9 @@ const PlayerQuestions = () => {
                         <div className='d-flex w-25 justify-content-end'>
                             <div className="d-flex" id='buttons-wrapper'>
                                 <button
-                                    onClick={() => navigate(routes.playerQuestionsAnswer(1))}
+                                    onClick={() => {
+                                        handleAnswerRandom(null)
+                                    }}
                                     className="btn btn-primary me-3"
                                 >
                                     Answer Random
@@ -116,7 +239,7 @@ const PlayerQuestions = () => {
                             }}
                         />
                     </div>
-                </div>
+                </div>}
             </Content>
 
             <div className="modal fade" id="category-modal" tabIndex="-1" aria-labelledby="category-modal-title"
@@ -132,7 +255,7 @@ const PlayerQuestions = () => {
                             <input type="text" id="categorySearch" className="form-control mb-3"
                                    placeholder="Search categories..."/>
 
-                            <CategoriesList count={10}/>
+                            <CategoriesList categories={categories}/>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -142,72 +265,6 @@ const PlayerQuestions = () => {
             </div>
         </div>
     )
-}
-
-const QuestionRow = ({question}) => {
-    const navigate = useNavigate()
-
-    return (
-        <tr>
-            <td
-                role='button'
-                onClick={() => {
-                    navigate(routes.playerQuestionsView(question.id))
-                }}
-                style={{width: '10%', height: "55px"}}
-            >
-                {question.id}
-            </td>
-            <td
-                role='button'
-                onClick={() => {
-                    navigate(routes.playerQuestionsView(question.id))
-                }}
-                style={{width: '50%'}}
-            >
-                {question.title}
-            </td>
-            <td
-                role='button'
-                onClick={() => {
-                    navigate(routes.playerQuestionsView(question.id))
-                }}
-                style={{width: '30%'}}
-            >
-                {question.category ? question.category : '-'}
-            </td>
-        </tr>
-    )
-}
-QuestionRow.propTypes = {
-    question: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        title: PropTypes.string.isRequired,
-        category: PropTypes.string,
-    }),
-}
-
-const CategoriesList = ({count}) => {
-    const navigate = useNavigate()
-    return (
-        <div className="list-group overflow-y-scroll" id="categoryList" style={{maxHeight: '300px'}}>
-            {[...Array(count)].map((_, index) => (
-                <button
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                    className="list-group-item list-group-item-action"
-                    onClick={() => {
-                        navigate(routes.playerQuestionsAnswer(index));
-                    }}
-                >
-                    Category {index}
-                </button>
-            ))}
-        </div>
-    );
-};
-CategoriesList.propTypes = {
-    count: PropTypes.number.isRequired,
 }
 
 export default PlayerQuestions;

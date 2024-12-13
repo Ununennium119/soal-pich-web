@@ -9,7 +9,7 @@ const DarkModeToggle = () => {
         <button
             onClick={toggleTheme}
                 className={`btn d-flex justify-content-center align-items-center position-fixed fs-4 p-0 ${theme === 'dark' ? "btn-light" : "btn-dark"}`}
-            style={{right: '4rem', bottom: '3rem', width: '3rem', height: '3rem', zIndex: 1000}}
+            style={{right: '4rem', top: '0.5rem', width: '3rem', height: '3rem', zIndex: 1000}}
         >
 
             {theme === 'dark' ? <MdSunny/> : <MdModeNight/>}

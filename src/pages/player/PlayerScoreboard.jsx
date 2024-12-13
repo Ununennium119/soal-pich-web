@@ -1,67 +1,58 @@
 import PropTypes from "prop-types";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import PlayerSidebar from "../../components/PlayerSidebar.jsx";
 import Content from "../../components/Content";
 import PaginationComponent from "../../components/PaginationComponent";
 import {Table} from "react-bootstrap";
+import {getScoreboard} from "../../api/QuestionsApi";
+import {useToast} from "../../context/ToastContext";
+import {getCurrentUser} from "../../api/AuthenticationApi";
 
 const PlayerScoreboard = () => {
-    const users = [
-        {
-            rank: 1,
-            username: 'User #1',
-            score: 1000,
-        },
-        {
-            rank: 2,
-            username: 'User #2',
-            score: 500,
-        },
-        {
-            rank: 3,
-            username: 'User #3',
-            score: 200,
-        },
-        {
-            rank: 4,
-            username: 'User #4',
-            score: 100,
-        },
-        {
-            rank: 5,
-            username: 'User #5',
-            score: 80,
-        },
-        {
-            rank: 6,
-            username: 'User #6',
-            score: 75,
-        },
-        {
-            rank: 7,
-            username: 'User #7',
-            score: 68,
-        },
-        {
-            rank: 8,
-            username: 'User #8',
-            score: 50,
-        },
-        {
-            rank: 9,
-            username: 'User #9',
-            score: 40,
-        },
-        {
-            rank: 10,
-            username: 'User #10',
-            score: 39,
-        },
-    ]
-    const currentUser = 'User #3'
+    const {addToast} = useToast();
 
+    const [loading, setLoading] = useState(true);
+    const [currentUser, setCurrentUser] = useState({})
+    const [users, setUsers] = useState([])
     const [activePage, setActivePage] = useState(1);
-    const [totalPages] = useState(150);
+    const [totalPages, setTotalPages] = useState(1);
+
+    const fetchScoreboard = async () => {
+        try {
+            const getScoreboardResponse = await getScoreboard({
+                page: activePage - 1,
+            });
+            setUsers(getScoreboardResponse.content)
+            setActivePage(getScoreboardResponse.page + 1);
+            setTotalPages(getScoreboardResponse.totalPages);
+        } catch (err) {
+            err.response.data.errors.forEach((error) => {
+                Object.values(error['constraints']).forEach((constraint) => {
+                    addToast(constraint, 'error')
+                })
+            })
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const fetchCurrentUser = async () => {
+        try {
+            const currentUserResponse = await getCurrentUser();
+            setCurrentUser(currentUserResponse)
+        } catch (err) {
+            err.response.data.errors.forEach((error) => {
+                Object.values(error['constraints']).forEach((constraint) => {
+                    addToast(constraint, 'error')
+                })
+            })
+        }
+    };
+
+    useEffect(() => {
+        fetchCurrentUser()
+        fetchScoreboard()
+    }, [activePage]);
 
     return (
         <div className="wrapper">
@@ -70,7 +61,7 @@ const PlayerScoreboard = () => {
             <Content
                 header='Scoreboard'
             >
-                <div className="card w-100">
+                {loading ? <h5>Loading...</h5> : <div className="card w-100">
                     <div className="card-body">
                         <Table className="table align-middle">
                             <thead>
@@ -86,7 +77,7 @@ const PlayerScoreboard = () => {
                                     return (
                                         UserRow({
                                             user: user,
-                                            isCurrent: user.username === currentUser,
+                                            isCurrent: user.username === currentUser.username,
                                         }))
                                 })
                             }
@@ -103,7 +94,7 @@ const PlayerScoreboard = () => {
                             }}
                         />
                     </div>
-                </div>
+                </div>}
             </Content>
         </div>
     )

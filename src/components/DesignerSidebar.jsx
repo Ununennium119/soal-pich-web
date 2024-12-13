@@ -15,11 +15,11 @@ const DesignerSidebar = () => {
                 <b>Soal Pich</b>
             </div>
             <ul className="sidebar-items-wrapper">
-                <li className={`sidebar-item ${location.pathname === routes.designerDashboard ? 'selected' : ''}`}>
-                    <Link to={routes.designerDashboard}>
-                        <MdDashboard className="sidebar-item-icon"/>Dashboard
-                    </Link>
-                </li>
+                {/*<li className={`sidebar-item ${location.pathname === routes.designerDashboard ? 'selected' : ''}`}>*/}
+                {/*    <Link to={routes.designerDashboard}>*/}
+                {/*        <MdDashboard className="sidebar-item-icon"/>Dashboard*/}
+                {/*    </Link>*/}
+                {/*</li>*/}
                 <li className={`sidebar-item ${location.pathname === routes.designerQuestions ? 'selected' : ''}`}>
                     <Link to={routes.designerQuestions}>
                         <MdQuestionMark className="sidebar-item-icon"/>Questions
