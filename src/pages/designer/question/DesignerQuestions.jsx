@@ -29,8 +29,8 @@ const DesignerQuestions = () => {
             direction: 'DESC',
         });
         setQuestions(listQuestionsResponse.content)
-        setActivePage(listQuestionsResponse.number + 1);
-        setTotalPages(listQuestionsResponse.totalPages);
+        setActivePage(listQuestionsResponse.page.number + 1);
+        setTotalPages(listQuestionsResponse.page.totalPages);
         setLoading(false);
     };
 

@@ -1,12 +1,20 @@
 import React from 'react';
 import {Link, useLocation} from 'react-router-dom';
-import {MdCategory, MdDashboard, MdQuestionMark} from "react-icons/md";
+import {MdCategory, MdExitToApp, MdQuestionMark} from "react-icons/md";
 import logo from '/src/assets/logo.png?url'
 import {routes} from "../routes";
 import '../scss/_sidebar.scss'
+import {logout} from "../api/AuthenticationApi";
+import {toast} from "react-toastify";
 
 const DesignerSidebar = () => {
     const location = useLocation();
+
+    const handleLogout = async () => {
+        await logout()
+        localStorage.removeItem("jwtToken");
+        toast.success("Logged out successfully!")
+    };
 
     return (
         <div className="sidebar-wrapper">
@@ -30,7 +38,13 @@ const DesignerSidebar = () => {
                         <MdCategory className="sidebar-item-icon"/>Categories
                     </Link>
                 </li>
+                <li className={'sidebar-item'}>
+                    <Link onClick={() => handleLogout()} to={routes.login}>
+                        <MdExitToApp className="sidebar-item-icon"/> Logout
+                    </Link>
+                </li>
             </ul>
+
         </div>
     );
 }

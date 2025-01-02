@@ -26,8 +26,8 @@ const DesignerCategories = () => {
             direction: 'DESC',
         });
         setCategories(listCategoriesResponse.content)
-        setActivePage(listCategoriesResponse.number + 1);
-        setTotalPages(listCategoriesResponse.totalPages);
+        setActivePage(listCategoriesResponse.page.number + 1);
+        setTotalPages(listCategoriesResponse.page.totalPages);
         setLoading(false)
     };
 
