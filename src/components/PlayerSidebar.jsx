@@ -33,6 +33,11 @@ const PlayerSidebar = () => {
                         <MdQuestionMark className="sidebar-item-icon"/>Questions
                     </Link>
                 </li>
+                <li className={`sidebar-item ${location.pathname === routes.playerFeed ? 'selected' : ''}`}>
+                    <Link to={routes.playerFeed}>
+                        <MdQuestionMark className="sidebar-item-icon"/>Feed
+                    </Link>
+                </li>
                 <li className={`sidebar-item ${location.pathname === routes.playerScoreboard ? 'selected' : ''}`}>
                     <Link to={routes.playerScoreboard}>
                         <MdTableRows className="sidebar-item-icon"/>Scoreboard

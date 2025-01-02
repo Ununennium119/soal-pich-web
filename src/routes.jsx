@@ -27,6 +27,8 @@ export const routes = {
     playerQuestions: `${prefixes.playerPrefix}${prefixes.questionsPrefix}`,
     playerQuestionsView: (id) => `${prefixes.playerPrefix}${prefixes.questionsPrefix}/${id}`,
     playerQuestionsAnswer: (id) => `${prefixes.playerPrefix}${prefixes.questionsPrefix}/${id}/answer`,
+    // Player Feed
+    playerFeed: `${prefixes.playerPrefix}/feed`,
     // Player Scoreboard
     playerScoreboard: `${prefixes.playerPrefix}/scoreboard`,
 };

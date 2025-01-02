@@ -19,6 +19,7 @@ import DarkModeToggle from "./components/DarkModeToggle";
 import {ThemeContext} from "./context/ThemeContext";
 import {ToastContainer} from "react-toastify";
 import React, {useContext} from "react";
+import PlayerFeed from "./pages/player/PlayerFeed";
 
 function App() {
     const {theme} = useContext(ThemeContext);
@@ -48,6 +49,7 @@ function App() {
                 <Route path={routes.playerQuestions} element={<PlayerQuestions/>}/>
                 <Route path={routes.playerQuestionsView(':id')} element={<PlayerViewQuestion/>}/>
                 <Route path={routes.playerQuestionsAnswer(':id')} element={<PlayerAnswerQuestion/>}/>
+                <Route path={routes.playerFeed} element={<PlayerFeed/>}/>
                 <Route path={routes.playerScoreboard} element={<PlayerScoreboard/>}/>
 
                 <Route path={routes.designerDashboard} element={<DesignerDashboard/>}/>

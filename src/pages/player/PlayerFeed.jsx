@@ -6,14 +6,11 @@ import PlayerSidebar from "../../components/PlayerSidebar";
 import Content from "../../components/Content";
 import PaginationComponent from "../../components/PaginationComponent";
 import {routes} from "../../routes";
-import {getRandomQuestion, listQuestions} from "../../api/QuestionsApi";
+import {listQuestions} from "../../api/QuestionsApi";
 import {listCategories} from "../../api/CategoriesApi";
-import {toast} from "react-toastify";
-import ConfirmationPopover from "../../components/ConfirmationButton";
-import {MdPersonAdd} from "react-icons/md";
-import {followUser} from "../../api/UserApi";
+import {getCurrentUser} from "../../api/AuthenticationApi";
 
-const PlayerQuestions = () => {
+const PlayerFeed = () => {
     const navigate = useNavigate()
 
     const [loading, setLoading] = useState(true);
@@ -25,12 +22,14 @@ const PlayerQuestions = () => {
     const [categoryFilter, setCategoryFilter] = useState(null);
 
     const fetchQuestions = async () => {
+        const currentUserResponse = await getCurrentUser();
         const listQuestionsResponse = await listQuestions({
             page: activePage - 1,
             title: titleFilter,
             category: categoryFilter,
             order: 'id',
             direction: 'DESC',
+            createdBy: currentUserResponse.following.length === 0 ? "X" : currentUserResponse.following.join(",")
         });
         setQuestions(listQuestionsResponse.content)
         setActivePage(listQuestionsResponse.page.number + 1);
@@ -43,17 +42,8 @@ const PlayerQuestions = () => {
         setCategories(listCategoriesResponse)
     };
 
-    const handleAnswerRandom = async (category) => {
-        const getRandomQuestionResponse = await getRandomQuestion({'category': category})
-        if (getRandomQuestionResponse.id) {
-            navigate(routes.playerQuestionsAnswer(getRandomQuestionResponse.id))
-        } else {
-            toast.warning("There is no question to answer!")
-        }
-    }
-
     useEffect(() => {
-        fetchQuestions()
+        fetchQuestions();
     }, [activePage, titleFilter, categoryFilter]);
 
     useEffect(() => {
@@ -61,11 +51,6 @@ const PlayerQuestions = () => {
     }, []);
 
     const QuestionRow = ({question}) => {
-
-        const handleFollow = async (username) => {
-            await followUser(username)
-            toast.success("Designer followed successfully!")
-        }
 
         return (
             <tr>
@@ -104,23 +89,6 @@ const PlayerQuestions = () => {
                     style={{width: '20%'}}
                 >
                     {question.createdBy ? question.createdBy : '-'}
-                </td>
-                <td
-                    className='d-flex justify-content-around'
-                    style={{width: '100%'}}
-                >
-                    <ConfirmationPopover
-                        triggerButton={
-                            <button className='btn btn-outline-info'>
-                                <MdPersonAdd/>
-                            </button>
-                        }
-                        onConfirm={() => {
-                            handleFollow(question.createdBy)
-                        }}
-                        placement="left"
-                        text={`Follow ${question.createdBy}?`}
-                    />
                 </td>
             </tr>
         )
@@ -199,23 +167,6 @@ const PlayerQuestions = () => {
                                 </select>
                             </div>
                         </div>
-
-                        <div className='d-flex w-25 justify-content-end'>
-                            <div className="d-flex" id='buttons-wrapper'>
-                                <button
-                                    onClick={() => {
-                                        handleAnswerRandom(null)
-                                    }}
-                                    className="btn btn-primary me-3"
-                                >
-                                    Answer Random
-                                </button>
-                                <button className="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#category-modal">
-                                    Answer By Category
-                                </button>
-                            </div>
-                        </div>
                     </div>
 
                     <div className="card-body">
@@ -226,7 +177,6 @@ const PlayerQuestions = () => {
                                 <th key='title'>Title</th>
                                 <th key='category'>Category</th>
                                 <th key='designer'>Designer</th>
-                                <th key='follow' className={'text-center'}>Follow</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -282,4 +232,4 @@ const PlayerQuestions = () => {
     )
 }
 
-export default PlayerQuestions;
+export default PlayerFeed;
