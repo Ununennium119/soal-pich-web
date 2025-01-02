@@ -9,6 +9,9 @@ import {routes} from "../../routes";
 import {getRandomQuestion, listQuestions} from "../../api/QuestionsApi";
 import {listCategories} from "../../api/CategoriesApi";
 import {toast} from "react-toastify";
+import ConfirmationPopover from "../../components/ConfirmationButton";
+import {MdPersonAdd} from "react-icons/md";
+import {followUser} from "../../api/UserApi";
 
 const PlayerQuestions = () => {
     const navigate = useNavigate()
@@ -66,6 +69,12 @@ const PlayerQuestions = () => {
     }, []);
 
     const QuestionRow = ({question}) => {
+
+        const handleFollow = async (username) => {
+            await followUser(username)
+            toast.success("Designer followed successfully!")
+        }
+
         return (
             <tr>
                 <td
@@ -103,6 +112,23 @@ const PlayerQuestions = () => {
                     style={{width: '20%'}}
                 >
                     {question.createdBy ? question.createdBy : '-'}
+                </td>
+                <td
+                    className='d-flex justify-content-around'
+                    style={{width: '100%'}}
+                >
+                    <ConfirmationPopover
+                        triggerButton={
+                            <button className='btn btn-outline-info'>
+                                <MdPersonAdd/>
+                            </button>
+                        }
+                        onConfirm={() => {
+                            handleFollow(question.createdBy)
+                        }}
+                        placement="left"
+                        text={`Follow ${question.createdBy}?`}
+                    />
                 </td>
             </tr>
         )
@@ -208,6 +234,7 @@ const PlayerQuestions = () => {
                                 <th key='title'>Title</th>
                                 <th key='category'>Category</th>
                                 <th key='designer'>Designer</th>
+                                <th key='follow' className={'text-center'}>Follow</th>
                             </tr>
                             </thead>
                             <tbody>

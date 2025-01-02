@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React, {useEffect, useRef, useState} from 'react';
 import {Button, Overlay, Popover} from 'react-bootstrap';
 
-const ConfirmationPopover = ({triggerButton, onConfirm, placement = 'left'}) => {
+const ConfirmationPopover = ({triggerButton, onConfirm, placement = 'left', text = 'Are you sure?'}) => {
     const [show, setShow] = useState(false);
     const target = useRef(null);
     const overlayRef = useRef(null);
@@ -50,7 +50,7 @@ const ConfirmationPopover = ({triggerButton, onConfirm, placement = 'left'}) => 
             >
                 {(props) => (
                     <Popover {...props} id="confirmation-popover">
-                        <Popover.Header as="h3">Are you sure?</Popover.Header>
+                        <Popover.Header as="h3">{text}</Popover.Header>
                         <Popover.Body>
                             <div className="d-flex justify-content-between">
                                 <Button variant="danger" size="sm" onClick={handleConfirm}>
