@@ -82,7 +82,7 @@ const PlayerQuestions = () => {
                     onClick={() => {
                         navigate(routes.playerQuestionsView(question.id))
                     }}
-                    style={{width: '50%'}}
+                    style={{width: '30%'}}
                 >
                     {question.title}
                 </td>
@@ -95,6 +95,15 @@ const PlayerQuestions = () => {
                 >
                     {question.category?.title ? question.category.title : '-'}
                 </td>
+                <td
+                    role='button'
+                    onClick={() => {
+                        navigate(routes.playerQuestionsView(question.id))
+                    }}
+                    style={{width: '20%'}}
+                >
+                    {question.createdBy ? question.createdBy : '-'}
+                </td>
             </tr>
         )
     }
@@ -106,6 +115,7 @@ const PlayerQuestions = () => {
                 id: PropTypes.number.isRequired,
                 title: PropTypes.string.isRequired,
             }),
+            createdBy: PropTypes.string,
         }),
     }
 
@@ -197,6 +207,7 @@ const PlayerQuestions = () => {
                                 <th key='id'>ID</th>
                                 <th key='title'>Title</th>
                                 <th key='category'>Category</th>
+                                <th key='designer'>Designer</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -206,7 +217,8 @@ const PlayerQuestions = () => {
                                     question={{
                                         id: question.id,
                                         title: question.title,
-                                        category: question.category
+                                        category: question.category,
+                                        createdBy: question.createdBy,
                                     }}
                                 />
                             })}
