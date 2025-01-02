@@ -7,13 +7,11 @@ import Content from "../../../components/Content";
 import ConfirmationPopover from "../../../components/ConfirmationButton";
 import PaginationComponent from "../../../components/PaginationComponent";
 import {routes} from "../../../routes";
-import {useToast} from "../../../context/ToastContext";
 import {deleteQuestion, listQuestions} from "../../../api/QuestionsApi";
 import {listCategories} from "../../../api/CategoriesApi";
+import {toast} from "react-toastify";
 
 const DesignerQuestions = () => {
-    const {addToast} = useToast();
-
     const [loading, setLoading] = useState(true);
     const [categories, setCategories] = useState([]);
     const [questions, setQuestions] = useState([])
@@ -23,39 +21,22 @@ const DesignerQuestions = () => {
     const [categoryFilter, setCategoryFilter] = useState(null);
 
     const fetchQuestions = async () => {
-        try {
-            const listQuestionsResponse = await listQuestions({
-                page: activePage - 1,
-                title: titleFilter,
-                category: categoryFilter,
-                order: 'id',
-                direction: 'DESC',
-            });
-            setQuestions(listQuestionsResponse.content)
-            setActivePage(listQuestionsResponse.page + 1);
-            setTotalPages(listQuestionsResponse.totalPages);
-        } catch (err) {
-            err.response.data.errors.forEach((error) => {
-                Object.values(error['constraints']).forEach((constraint) => {
-                    addToast(constraint, 'error')
-                })
-            })
-        } finally {
-            setLoading(false);
-        }
+        const listQuestionsResponse = await listQuestions({
+            page: activePage - 1,
+            title: titleFilter,
+            category: categoryFilter,
+            order: 'id',
+            direction: 'DESC',
+        });
+        setQuestions(listQuestionsResponse.content)
+        setActivePage(listQuestionsResponse.number + 1);
+        setTotalPages(listQuestionsResponse.totalPages);
+        setLoading(false);
     };
 
     const fetchCategories = async () => {
-        try {
-            const listCategoriesResponse = await listCategories({});
-            setCategories(listCategoriesResponse)
-        } catch (err) {
-            err.response.data.errors.forEach((error) => {
-                Object.values(error['constraints']).forEach((constraint) => {
-                    addToast(constraint, 'error')
-                })
-            })
-        }
+        const listCategoriesResponse = await listCategories({});
+        setCategories(listCategoriesResponse)
     };
 
     useEffect(() => {
@@ -70,13 +51,9 @@ const DesignerQuestions = () => {
         const navigate = useNavigate()
 
         const handleDelete = async (id) => {
-            try {
-                await deleteQuestion(id)
-                await fetchQuestions()
-            } catch (err) {
-                console.log(err)
-                addToast(err.response.data.message, 'error')
-            }
+            await deleteQuestion(id)
+            toast.success("Question deleted successfully!")
+            await fetchQuestions()
         }
 
         return (
@@ -173,9 +150,11 @@ const DesignerQuestions = () => {
                                     className="form-control d-inline-block w-50"
                                     id="category-filter"
                                     value={categoryFilter}
-                                    onChange={(e) => setCategoryFilter(e.target.value)}
+                                    onChange={(e) =>
+                                        setCategoryFilter(e.target.value === "null" ? null : e.target.value)
+                                    }
                                 >
-                                    <option key={null} value={null}>All</option>
+                                    <option key={"null"} value={"null"}>All</option>
                                     {categories.map((category) => {
                                         return <option key={category.id} value={category.id}>{category.title}</option>
                                     })}

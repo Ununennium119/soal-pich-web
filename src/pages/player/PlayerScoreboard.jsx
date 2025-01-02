@@ -5,12 +5,9 @@ import Content from "../../components/Content";
 import PaginationComponent from "../../components/PaginationComponent";
 import {Table} from "react-bootstrap";
 import {getScoreboard} from "../../api/QuestionsApi";
-import {useToast} from "../../context/ToastContext";
 import {getCurrentUser} from "../../api/AuthenticationApi";
 
 const PlayerScoreboard = () => {
-    const {addToast} = useToast();
-
     const [loading, setLoading] = useState(true);
     const [currentUser, setCurrentUser] = useState({})
     const [users, setUsers] = useState([])
@@ -18,35 +15,18 @@ const PlayerScoreboard = () => {
     const [totalPages, setTotalPages] = useState(1);
 
     const fetchScoreboard = async () => {
-        try {
-            const getScoreboardResponse = await getScoreboard({
-                page: activePage - 1,
-            });
-            setUsers(getScoreboardResponse.content)
-            setActivePage(getScoreboardResponse.page + 1);
-            setTotalPages(getScoreboardResponse.totalPages);
-        } catch (err) {
-            err.response.data.errors.forEach((error) => {
-                Object.values(error['constraints']).forEach((constraint) => {
-                    addToast(constraint, 'error')
-                })
-            })
-        } finally {
-            setLoading(false);
-        }
+        const getScoreboardResponse = await getScoreboard({
+            page: activePage - 1,
+        });
+        setUsers(getScoreboardResponse.content)
+        setActivePage(getScoreboardResponse.number + 1);
+        setTotalPages(getScoreboardResponse.totalPages);
+        setLoading(false);
     };
 
     const fetchCurrentUser = async () => {
-        try {
-            const currentUserResponse = await getCurrentUser();
-            setCurrentUser(currentUserResponse)
-        } catch (err) {
-            err.response.data.errors.forEach((error) => {
-                Object.values(error['constraints']).forEach((constraint) => {
-                    addToast(constraint, 'error')
-                })
-            })
-        }
+        const currentUserResponse = await getCurrentUser();
+        setCurrentUser(currentUserResponse)
     };
 
     useEffect(() => {

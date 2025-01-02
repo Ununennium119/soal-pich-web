@@ -1,13 +1,12 @@
 import DesignerSidebar from "../../../components/DesignerSidebar";
 import Content from "../../../components/Content";
 import {routes} from "../../../routes";
-import {useToast} from "../../../context/ToastContext";
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {editCategory, getCategory} from "../../../api/CategoriesApi";
+import {toast} from "react-toastify";
 
 const DesignerEditCategory = () => {
-    const {addToast} = useToast();
     const navigate = useNavigate();
     const {id} = useParams();
     const [loading, setLoading] = useState(true);
@@ -16,33 +15,17 @@ const DesignerEditCategory = () => {
     });
 
     const fetchCategory = async () => {
-        try {
-            const getQuestionResponse = await getCategory(id);
-            setCategory(getQuestionResponse)
-            setLoading(false)
-        } catch (err) {
-            err.response.data.errors.forEach((error) => {
-                Object.values(error['constraints']).forEach((constraint) => {
-                    addToast(constraint, 'error')
-                })
-            })
-        }
+        const getQuestionResponse = await getCategory(id);
+        setCategory(getQuestionResponse)
+        setLoading(false)
     };
 
     const handleEditCategory = async (event) => {
         event.preventDefault();
 
-        try {
-            await editCategory(id, category);
-            addToast("Category edited successfully!", 'success')
-            navigate(routes.designerCategories);
-        } catch (err) {
-            err.response.data.errors.forEach((error) => {
-                Object.values(error['constraints']).forEach((constraint) => {
-                    addToast(constraint, 'error')
-                })
-            })
-        }
+        await editCategory(id, category);
+        toast.success("Category edited successfully!")
+        navigate(routes.designerCategories);
     }
 
     useEffect(() => {

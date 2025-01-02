@@ -1,13 +1,12 @@
 import DesignerSidebar from "../../../components/DesignerSidebar";
 import Content from "../../../components/Content";
 import {routes} from "../../../routes";
-import {useToast} from "../../../context/ToastContext";
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import {createCategory} from "../../../api/CategoriesApi";
+import {toast} from "react-toastify";
 
 const DesignerCreateCategory = () => {
-    const {addToast} = useToast();
     const navigate = useNavigate();
     const [category, setCategory] = useState({
         title: "",
@@ -16,17 +15,9 @@ const DesignerCreateCategory = () => {
     const handleCreateCategory = async (event) => {
         event.preventDefault();
 
-        try {
-            await createCategory(category);
-            addToast("Category created successfully!", 'success')
-            navigate(routes.designerCategories);
-        } catch (err) {
-            err.response.data.errors.forEach((error) => {
-                Object.values(error['constraints']).forEach((constraint) => {
-                    addToast(constraint, 'error')
-                })
-            })
-        }
+        await createCategory(category);
+        toast.success("Category created successfully!")
+        navigate(routes.designerCategories);
     }
 
     return (

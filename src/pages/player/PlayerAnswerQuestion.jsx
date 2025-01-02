@@ -1,13 +1,12 @@
 import PlayerSidebar from "../../components/PlayerSidebar";
 import Content from "../../components/Content";
 import {routes} from "../../routes";
-import {useToast} from "../../context/ToastContext";
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {answerQuestion, getQuestion} from "../../api/QuestionsApi";
+import {toast} from "react-toastify";
 
 const PlayerAnswerQuestion = () => {
-    const {addToast} = useToast();
     const navigate = useNavigate();
     const {id} = useParams();
     const [loading, setLoading] = useState(true);
@@ -22,23 +21,15 @@ const PlayerAnswerQuestion = () => {
         option4: "",
         answer: 1,
         category: null,
-        difficulty: 'normal',
+        difficulty: 'NORMAL',
         relatedQuestions: [],
     });
 
     const fetchQuestion = async () => {
-        try {
-            const getQuestionResponse = await getQuestion(id);
-            setQuestion(getQuestionResponse)
-            setLoading(false)
-        } catch (err) {
-            err.response.data.errors.forEach((error) => {
-                Object.values(error['constraints']).forEach((constraint) => {
-                    addToast(constraint, 'error')
-                })
-            })
-        }
-    };
+        const getQuestionResponse = await getQuestion(id);
+        setQuestion(getQuestionResponse)
+        setLoading(false)
+    }
 
     const handleAnswerChange = async (e) => {
         setAnswer(parseInt(e.target.value));
@@ -47,17 +38,9 @@ const PlayerAnswerQuestion = () => {
     const handleAnswerQuestion = async (e) => {
         e.preventDefault();
 
-        try {
-            await answerQuestion(id, {"answer": answer});
-            addToast("Question answered successfully!", 'success')
-            navigate(routes.playerQuestions);
-        } catch (err) {
-            err.response.data.errors.forEach((error) => {
-                Object.values(error['constraints']).forEach((constraint) => {
-                    addToast(constraint, 'error')
-                })
-            })
-        }
+        await answerQuestion(id, {"answer": answer});
+        toast.success("Question answered successfully!")
+        navigate(routes.playerQuestions);
     }
 
     useEffect(() => {

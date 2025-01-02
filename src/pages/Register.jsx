@@ -1,34 +1,28 @@
 import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
-import {useToast} from "../context/ToastContext";
 import {register} from "../api/AuthenticationApi";
 import {routes} from "../routes";
+import {toast} from "react-toastify";
 
 const Register = () => {
     const navigate = useNavigate()
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [role, setRole] = useState('player');
-    const {addToast} = useToast();
+    const [role, setRole] = useState('PLAYER');
 
     const handleRegister = async (event) => {
         event.preventDefault();
 
         try {
             if (password !== confirmPassword) {
-                addToast("Passwords don't match!", 'error')
+                toast.error("Passwords don't match!")
             } else {
                 await register({username: username, password: password, role: role});
-                addToast("User registered successfully!", 'success')
+                toast.success("User registered successfully!")
                 navigate(routes.login);
             }
         } catch (err) {
-            err.response.data.errors.forEach((error) => {
-                Object.values(error['constraints']).forEach((constraint) => {
-                    addToast(constraint, 'error')
-                })
-            })
         }
     };
 
@@ -82,8 +76,8 @@ const Register = () => {
                                         id="role"
                                         onChange={(e) => setRole(e.target.value)}
                                     >
-                                        <option value="player">Player</option>
-                                        <option value="designer">Designer</option>
+                                        <option value="PLAYER">Player</option>
+                                        <option value="DESIGNER">Designer</option>
                                     </select>
                                 </div>
                                 <button type="submit" className="btn btn-primary w-100">Sign Up</button>

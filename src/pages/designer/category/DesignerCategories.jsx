@@ -8,12 +8,9 @@ import {useEffect, useState} from "react";
 import {routes} from "../../../routes";
 import {Table} from "react-bootstrap";
 import {deleteCategory, listCategories} from "../../../api/CategoriesApi";
-import {useToast} from "../../../context/ToastContext";
-import {deleteQuestion} from "../../../api/QuestionsApi";
+import {toast} from "react-toastify";
 
 const DesignerCategories = () => {
-    const {addToast} = useToast();
-
     const [loading, setLoading] = useState(true);
     const [categories, setCategories] = useState([]);
     const [activePage, setActivePage] = useState(1);
@@ -21,25 +18,17 @@ const DesignerCategories = () => {
     const [titleFilter, setTitleFilter] = useState("");
 
     const fetchCategories = async () => {
-        try {
-            const listCategoriesResponse = await listCategories({
-                page: activePage - 1,
-                pageSize: 10,
-                title: titleFilter,
-                order: 'id',
-                direction: 'DESC',
-            });
-            setCategories(listCategoriesResponse.content)
-            setActivePage(listCategoriesResponse.page + 1);
-            setTotalPages(listCategoriesResponse.totalPages);
-            setLoading(false)
-        } catch (err) {
-            err.response.data.errors.forEach((error) => {
-                Object.values(error['constraints']).forEach((constraint) => {
-                    addToast(constraint, 'error')
-                })
-            })
-        }
+        const listCategoriesResponse = await listCategories({
+            page: activePage - 1,
+            pageSize: 10,
+            title: titleFilter,
+            order: 'id',
+            direction: 'DESC',
+        });
+        setCategories(listCategoriesResponse.content)
+        setActivePage(listCategoriesResponse.number + 1);
+        setTotalPages(listCategoriesResponse.totalPages);
+        setLoading(false)
     };
 
     useEffect(() => {
@@ -50,13 +39,9 @@ const DesignerCategories = () => {
         const navigate = useNavigate()
 
         const handleDelete = async (id) => {
-            try {
-                await deleteCategory(id)
-                await fetchCategories()
-            } catch (err) {
-                console.log(err)
-                addToast(err.response.data.message, 'error')
-            }
+            await deleteCategory(id)
+            toast.success("Category deleted successfully!")
+            await fetchCategories()
         }
 
         return (

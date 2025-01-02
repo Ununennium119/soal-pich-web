@@ -2,12 +2,10 @@ import {Link, useParams} from "react-router-dom";
 import PlayerSidebar from "../../components/PlayerSidebar";
 import Content from "../../components/Content";
 import {routes} from "../../routes";
-import {useToast} from "../../context/ToastContext";
 import {useEffect, useState} from "react";
 import {getQuestion} from "../../api/QuestionsApi";
 
 const PlayerViewQuestion = () => {
-    const {addToast} = useToast();
     const {id} = useParams();
     const [loading, setLoading] = useState(true);
     const [question, setQuestion] = useState({
@@ -20,22 +18,14 @@ const PlayerViewQuestion = () => {
         option4: "",
         answer: 1,
         category: null,
-        difficulty: 'normal',
+        difficulty: 'NORMAL',
         relatedQuestions: [],
     });
 
     const fetchQuestion = async () => {
-        try {
-            const getQuestionResponse = await getQuestion(id);
-            setQuestion(getQuestionResponse)
-            setLoading(false)
-        } catch (err) {
-            err.response.data.errors.forEach((error) => {
-                Object.values(error['constraints']).forEach((constraint) => {
-                    addToast(constraint, 'error')
-                })
-            })
-        }
+        const getQuestionResponse = await getQuestion(id);
+        setQuestion(getQuestionResponse)
+        setLoading(false)
     };
 
     useEffect(() => {

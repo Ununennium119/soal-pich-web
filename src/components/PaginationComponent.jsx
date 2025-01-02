@@ -12,8 +12,22 @@ const PaginationComponent = ({activePage, totalPages, onPageChange}) => {
     };
 
     const getPaginationItems = () => {
+        if (totalPages === 0) {
+            return [
+                <Pagination.Item
+                    key={1}
+                    onClick={() => handlePageChange(1)}
+                    disabled={true}
+                    style={{width: paginationItemWidth}}
+                    className='text-center'
+                >
+                    1
+                </Pagination.Item>
+            ]
+        }
+
         const items = [];
-        const maxVisiblePages = 5; // Total pages to display (not counting ellipses)
+        const maxVisiblePages = 5;
         let startPage = Math.max(1, activePage - Math.floor(maxVisiblePages / 2));
         let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
 
@@ -78,14 +92,14 @@ const PaginationComponent = ({activePage, totalPages, onPageChange}) => {
         <Pagination className="mb-0">
             <Pagination.Prev
                 onClick={() => handlePageChange(activePage - 1)}
-                disabled={activePage === 1}
+                disabled={activePage === 1 || totalPages === 0}
                 style={{width: paginationItemWidth}}
                 className='text-center'
             />
             {getPaginationItems()}
             <Pagination.Next
                 onClick={() => handlePageChange(activePage + 1)}
-                disabled={activePage === totalPages}
+                disabled={activePage === totalPages || totalPages === 0}
                 style={{width: paginationItemWidth}}
                 className='text-center'
             />

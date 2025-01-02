@@ -2,36 +2,26 @@ import React, {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {getCurrentUser, login} from "../api/AuthenticationApi";
 import {routes} from "../routes";
-import {useToast} from "../context/ToastContext";
+import {toast} from "react-toastify";
 
 const Login = () => {
     const navigate = useNavigate()
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const { addToast } = useToast();
 
     const handleLogin = async (event) => {
         event.preventDefault();
 
-        try {
-            const response = await login({username: username, password: password});
-            if (response && response.token) {
-                localStorage.setItem('jwtToken', response.token);
-                const user = await getCurrentUser()
-                if (user.role === 'designer') {
-                    navigate(routes.designerQuestions);
-                } else {
-                    navigate(routes.playerQuestions);
-                }
+        const response = await login({username: username, password: password});
+        if (response && response.token) {
+            toast.success("Logged in successfully!")
+            localStorage.setItem('jwtToken', response.token);
+            const user = await getCurrentUser()
+            if (user.role === 'DESIGNER') {
+                navigate(routes.designerQuestions);
             } else {
-                addToast("Something went wrong!", 'error')
+                navigate(routes.playerQuestions);
             }
-        } catch (err) {
-            err.response.data.errors.forEach((error) => {
-                Object.values(error['constraints']).forEach((constraint) => {
-                    addToast(constraint, 'error')
-                })
-            })
         }
     };
 

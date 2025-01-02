@@ -3,12 +3,11 @@ import Content from "../../../components/Content";
 import {routes} from "../../../routes";
 import {useEffect, useState} from "react";
 import {listCategories} from "../../../api/CategoriesApi";
-import {useToast} from "../../../context/ToastContext";
 import {createQuestion, listQuestions} from "../../../api/QuestionsApi";
 import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 
 const DesignerCreateQuestion = () => {
-    const {addToast} = useToast();
     const navigate = useNavigate();
     const [categories, setCategories] = useState([])
     const [questions, setQuestions] = useState([])
@@ -21,50 +20,26 @@ const DesignerCreateQuestion = () => {
         option4: "",
         answer: 1,
         category: null,
-        difficulty: 'normal',
+        difficulty: 'NORMAL',
         relatedQuestions: [],
     });
 
     const fetchCategories = async () => {
-        try {
-            const listCategoriesResponse = await listCategories({});
-            setCategories(listCategoriesResponse)
-        } catch (err) {
-            err.response.data.errors.forEach((error) => {
-                Object.values(error['constraints']).forEach((constraint) => {
-                    addToast(constraint, 'error')
-                })
-            })
-        }
+        const listCategoriesResponse = await listCategories({});
+        setCategories(listCategoriesResponse)
     };
 
     const fetchQuestions = async () => {
-        try {
-            const listQuestionsResponse = await listQuestions();
-            setQuestions(listQuestionsResponse)
-        } catch (err) {
-            err.response.data.errors.forEach((error) => {
-                Object.values(error['constraints']).forEach((constraint) => {
-                    addToast(constraint, 'error')
-                })
-            })
-        }
+        const listQuestionsResponse = await listQuestions();
+        setQuestions(listQuestionsResponse)
     };
 
     const handleCreateQuestion = async (event) => {
         event.preventDefault();
 
-        try {
-            await createQuestion(question);
-            addToast("Question created successfully!", 'success')
-            navigate(routes.designerQuestions);
-        } catch (err) {
-            err.response.data.errors.forEach((error) => {
-                Object.values(error['constraints']).forEach((constraint) => {
-                    addToast(constraint, 'error')
-                })
-            })
-        }
+        await createQuestion(question);
+        toast.success("Question created successfully!")
+        navigate(routes.designerQuestions);
     }
 
     useEffect(() => {
@@ -207,7 +182,7 @@ const DesignerCreateQuestion = () => {
                             <div className="mb-4">
                                 <label htmlFor="difficulty-input" className="form-label">Difficulty</label>
                                 <select
-                                    defaultValue="normal"
+                                    defaultValue="NORMAL"
                                     className="form-control"
                                     id="difficulty-input"
                                     value={question.difficulty}
@@ -216,9 +191,9 @@ const DesignerCreateQuestion = () => {
                                         difficulty: e.target.value,
                                     })}
                                 >
-                                    <option value="easy">Easy</option>
-                                    <option value="normal">Normal</option>
-                                    <option value="hard">Hard</option>
+                                    <option value="EASY">Easy</option>
+                                    <option value="NORMAL">Normal</option>
+                                    <option value="HARD">Hard</option>
                                 </select>
                             </div>
 

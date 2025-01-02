@@ -6,12 +6,11 @@ import PlayerSidebar from "../../components/PlayerSidebar";
 import Content from "../../components/Content";
 import PaginationComponent from "../../components/PaginationComponent";
 import {routes} from "../../routes";
-import {useToast} from "../../context/ToastContext";
 import {getRandomQuestion, listQuestions} from "../../api/QuestionsApi";
 import {listCategories} from "../../api/CategoriesApi";
+import {toast} from "react-toastify";
 
 const PlayerQuestions = () => {
-    const {addToast} = useToast();
     const navigate = useNavigate()
 
     const [loading, setLoading] = useState(true);
@@ -23,26 +22,17 @@ const PlayerQuestions = () => {
     const [categoryFilter, setCategoryFilter] = useState(null);
 
     const fetchQuestions = async () => {
-        try {
-            const listQuestionsResponse = await listQuestions({
-                page: activePage - 1,
-                title: titleFilter,
-                category: categoryFilter,
-                order: 'id',
-                direction: 'DESC',
-            });
-            setQuestions(listQuestionsResponse.content)
-            setActivePage(listQuestionsResponse.page + 1);
-            setTotalPages(listQuestionsResponse.totalPages);
-        } catch (err) {
-            err.response.data.errors.forEach((error) => {
-                Object.values(error['constraints']).forEach((constraint) => {
-                    addToast(constraint, 'error')
-                })
-            })
-        } finally {
-            setLoading(false);
-        }
+        const listQuestionsResponse = await listQuestions({
+            page: activePage - 1,
+            title: titleFilter,
+            category: categoryFilter,
+            order: 'id',
+            direction: 'DESC',
+        });
+        setQuestions(listQuestionsResponse.content)
+        setActivePage(listQuestionsResponse.number + 1);
+        setTotalPages(listQuestionsResponse.totalPages);
+        setLoading(false);
     };
 
     const fetchCategories = async () => {
@@ -59,19 +49,11 @@ const PlayerQuestions = () => {
     };
 
     const handleAnswerRandom = async (category) => {
-        try {
-            const getRandomQuestionResponse = await getRandomQuestion({'category': category})
-            navigate(routes.playerQuestionsAnswer(getRandomQuestionResponse.questionId))
-        } catch (err) {
-            if (err.response.status === 404) {
-                addToast("There is no question to answer.", 'error')
-            } else {
-                err.response.data.errors.forEach((error) => {
-                    Object.values(error['constraints']).forEach((constraint) => {
-                        addToast(constraint, 'error')
-                    })
-                })
-            }
+        const getRandomQuestionResponse = await getRandomQuestion({'category': category})
+        if (getRandomQuestionResponse.id) {
+            navigate(routes.playerQuestionsAnswer(getRandomQuestionResponse.id))
+        } else {
+            toast.warning("There is no question to answer!")
         }
     }
 
@@ -178,9 +160,11 @@ const PlayerQuestions = () => {
                                 <select className="form-control d-inline-block w-50"
                                         id="category-filter"
                                         value={categoryFilter}
-                                        onChange={(e) => setCategoryFilter(e.target.value)}
+                                        onChange={(e) =>
+                                            setCategoryFilter(e.target.value === "null" ? null : e.target.value)
+                                        }
                                 >
-                                    <option key={null} value={null}>All</option>
+                                    <option key={"null"} value={"null"}>All</option>
                                     {categories.map((category) => {
                                         return <option key={category.id} value={category.id}>{category.title}</option>
                                     })}
