@@ -19,8 +19,8 @@ const PlayerScoreboard = () => {
             page: activePage - 1,
         });
         setUsers(getScoreboardResponse.content)
-        setActivePage(getScoreboardResponse.number + 1);
-        setTotalPages(getScoreboardResponse.totalPages);
+        setActivePage(getScoreboardResponse.page.number + 1);
+        setTotalPages(getScoreboardResponse.page.totalPages);
         setLoading(false);
     };
 
