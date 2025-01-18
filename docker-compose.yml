@@ -1,0 +1,34 @@
+name: soal_pich
+
+volumes:
+  db:
+    driver: local
+
+services:
+  postgresql:
+    image: docker.arvancloud.ir/postgres:16.3
+    container_name: soal_pich_postgresql
+    ports:
+      - "5432:5432"
+    volumes:
+      - "db:/var/lib/postgresql/data"
+    environment:
+      - POSTGRES_DB=soal_pich
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+  
+  api:
+    image: soal-pich/api:latest
+    container_name: soal_pich_api
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/soal_pich
+
+  web:
+    image: soal-pich/web:latest
+    container_name: soal_pich_web
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_BASE_URL=http://host.docker.internal:8080
