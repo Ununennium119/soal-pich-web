@@ -2,8 +2,9 @@ import axios from 'axios';
 import {routes} from "../routes";
 import {toast} from 'react-toastify';
 
+
 const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_API_BASE_URL || 'http://localhost:8080/',
+    baseURL: import.meta.env.REACT_APP_API_BASE_URL || 'http://localhost:8080/',
     timeout: 5000,
     headers: {
         'Content-Type': 'application/json',
