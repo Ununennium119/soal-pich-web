@@ -16,19 +16,57 @@ services:
       - POSTGRES_DB=soal_pich
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=password
-  
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d soal_pich"]
+      interval: 10s
+      retries: 5
+    networks:
+      - app-network
+
   api:
     image: soal-pich/api:latest
-    container_name: soal_pich_api
-    ports:
-      - "8080:8080"
+    deploy:
+      replicas: 3  
+      restart_policy:
+        condition: on-failure
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/soal_pich
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/soal_pich
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    networks:
+      - app-network
+    expose:
+      - "8080"  
 
   web:
     image: soal-pich/web:latest
-    container_name: soal_pich_web
-    ports:
-      - "3000:3000"
+    deploy:
+      replicas: 3  
+      restart_policy:
+        condition: on-failure
     environment:
-      - REACT_APP_API_BASE_URL=http://host.docker.internal:8080
+      - VITE_REACT_APP_API_BASE_URL=http://localhost  
+    depends_on:
+      - api
+    networks:
+      - app-network
+    expose:
+      - "3000" 
+
+  nginx:
+    image: nginx:latest
+    container_name: soal_pich_nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api
+      - web
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
